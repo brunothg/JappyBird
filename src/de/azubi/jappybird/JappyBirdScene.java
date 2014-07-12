@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import de.azubi.jappybird.engine.Scene;
+import de.azubi.jappybird.engine.Time;
 
 public class JappyBirdScene implements Scene {
 
@@ -23,8 +24,7 @@ public class JappyBirdScene implements Scene {
 	private static final double HORIZONT = 0.7;
 	private static final double SUN_SIZE = 0.15;
 
-	private long lastTime;
-	private long elapsedTime;
+	private Time time;
 
 	private BufferedImage screen;
 	private BufferedImage screenStatic;
@@ -35,6 +35,7 @@ public class JappyBirdScene implements Scene {
 
 	public JappyBirdScene(boolean start) {
 		paused = !start;
+		time = new Time();
 	}
 
 	public JappyBirdScene() {
@@ -47,7 +48,7 @@ public class JappyBirdScene implements Scene {
 	}
 
 	private void paintSun(Graphics g, int height) {
-		sunTime += elapsedTime;
+		sunTime += time.elapsedTime();
 		sunTime %= 24 * NANOSECONDS_PER_SECOND;
 
 		long realTime = sunTime - 12 * NANOSECONDS_PER_SECOND;
@@ -141,17 +142,12 @@ public class JappyBirdScene implements Scene {
 						255, Math.max(0, tmpCol.getBlue() + add)));
 	}
 
-	public void resetTime() {
-		lastTime = System.nanoTime();
-	}
-
 	@Override
 	public void paintScene(Graphics g, int width, int height) {
 		long actTime = System.nanoTime();
 
 		if (!paused) {
-			elapsedTime = actTime - lastTime;
-			lastTime = actTime;
+			time.update();
 		}
 
 		Graphics2D gr = getGraphics(width, height);
@@ -198,18 +194,18 @@ public class JappyBirdScene implements Scene {
 	@Override
 	public void pause() {
 		paused = true;
-		elapsedTime = 0;
+		time.reset();
 	}
 
 	@Override
 	public void stop() {
 		paused = true;
-		elapsedTime = 0;
+		time.reset();
 	}
 
 	@Override
 	public void start() {
 		paused = false;
-		resetTime();
+		time.reset();
 	}
 }

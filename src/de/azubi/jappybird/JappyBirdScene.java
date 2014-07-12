@@ -31,9 +31,12 @@ public class JappyBirdScene implements Scene {
 
 	private boolean paused;
 
+	private JappyBirdMovingScene movingScene;
+
 	public JappyBirdScene(boolean start) {
 		paused = !start;
 		time = new Time();
+		movingScene = new JappyBirdMovingScene(start);
 	}
 
 	public JappyBirdScene() {
@@ -42,7 +45,7 @@ public class JappyBirdScene implements Scene {
 
 	private void paintNonStatic(Graphics g, int width, int height) {
 		paintSun(g, height);
-		// TODO other ForegroundPaintings
+		movingScene.paintScene(g, width, height);
 	}
 
 	private void paintSun(Graphics g, int height) {
@@ -192,17 +195,20 @@ public class JappyBirdScene implements Scene {
 	public void pause() {
 		paused = true;
 		time.reset();
+		movingScene.pause();
 	}
 
 	@Override
 	public void stop() {
 		paused = true;
 		time.reset();
+		movingScene.stop();
 	}
 
 	@Override
 	public void start() {
 		paused = false;
 		time.reset();
+		movingScene.start();
 	}
 }

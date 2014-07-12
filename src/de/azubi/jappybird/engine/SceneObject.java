@@ -5,7 +5,6 @@ import java.awt.Graphics;
 public abstract class SceneObject {
 
 	private Point position = new Point(0, 0);
-	private Point origin = new Point(0, 0);
 	private Size size = new Size(0, 0);
 
 	/**
@@ -113,37 +112,7 @@ public abstract class SceneObject {
 	 * 
 	 * @return The Origin of this ScreenObject
 	 */
-	public Point getOrigin() {
-		return origin;
-	}
-
-	/**
-	 * Set the Origin of this ScreenObject
-	 * 
-	 * @param origin
-	 *            The Origin of this ScreenObject
-	 */
-	public void setOrigin(Point origin) {
-		if (origin == null) {
-			throw new NullPointerException(
-					"This SceneObject must have a origin");
-		}
-
-		this.origin = origin;
-	}
-
-	/**
-	 * Set the Origin of this ScreenObject
-	 * 
-	 * @see #setOrigin(Point)
-	 * @param x
-	 *            The X-Coordinate of this ScreenObjects Origin
-	 * @param y
-	 *            The Y-Coordinate of this ScreenObjects Origin
-	 */
-	public void setOrigin(int x, int y) {
-		setOrigin(new Point(x, y));
-	}
+	public abstract Point getOrigin();
 
 	/**
 	 * The Size of this ScreenObject

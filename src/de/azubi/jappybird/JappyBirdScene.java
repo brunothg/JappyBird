@@ -10,8 +10,6 @@ import de.azubi.jappybird.engine.Time;
 
 public class JappyBirdScene implements Scene {
 
-	private static final long NANOSECONDS_PER_SECOND = 1_000_000_000;
-
 	private static final Color COLOR_GRAS = new Color(0x00, 0x66, 0x00);
 	private static final Color COLOR_GRAS_BRIGHT = new Color(0x00, 0xAA, 0x00);
 
@@ -39,7 +37,7 @@ public class JappyBirdScene implements Scene {
 	}
 
 	public JappyBirdScene() {
-		this(false);
+		this(true);
 	}
 
 	private void paintNonStatic(Graphics g, int width, int height) {
@@ -49,11 +47,11 @@ public class JappyBirdScene implements Scene {
 
 	private void paintSun(Graphics g, int height) {
 		sunTime += time.elapsedTime();
-		sunTime %= 24 * NANOSECONDS_PER_SECOND;
+		sunTime %= 24 * Time.NANOSECONDS_PER_SECOND;
 
-		long realTime = sunTime - 12 * NANOSECONDS_PER_SECOND;
+		long realTime = sunTime - 12 * Time.NANOSECONDS_PER_SECOND;
 
-		long sunAddSigned = (realTime / NANOSECONDS_PER_SECOND) * 2;
+		long sunAddSigned = (realTime / Time.NANOSECONDS_PER_SECOND) * 2;
 		long sunAdd = (sunAddSigned > 0) ? sunAddSigned
 				: 12 - (12 + sunAddSigned);
 

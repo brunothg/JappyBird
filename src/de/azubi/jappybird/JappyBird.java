@@ -14,7 +14,7 @@ public class JappyBird {
 
 		GameFrame gameFrame = new GameFrame("JappyBird");
 		gameFrame.setClk(clk);
-		gameFrame.setScene(new JappyBirdScene(true));
+		gameFrame.setScene(new JappyBirdScene());
 		gameFrame.setVisible(true);
 
 		clk.start();

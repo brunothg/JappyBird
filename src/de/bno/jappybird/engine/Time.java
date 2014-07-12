@@ -1,4 +1,4 @@
-package de.azubi.jappybird.engine;
+package de.bno.jappybird.engine;
 
 public class Time {
 
@@ -37,6 +37,10 @@ public class Time {
 	 */
 	public long elapsedTime() {
 		return elapsedTime;
+	}
+
+	public static double Seconds(long nano) {
+		return nano / (double) NANOSECONDS_PER_SECOND;
 	}
 
 }

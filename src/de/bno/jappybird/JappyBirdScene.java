@@ -1,12 +1,13 @@
-package de.azubi.jappybird;
+package de.bno.jappybird;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
-import de.azubi.jappybird.engine.Scene;
-import de.azubi.jappybird.engine.Time;
+import de.bno.jappybird.engine.Scene;
+import de.bno.jappybird.engine.Time;
 
 public class JappyBirdScene implements Scene {
 
@@ -141,6 +142,10 @@ public class JappyBirdScene implements Scene {
 		return new Color(Math.min(255, Math.max(0, tmpCol.getRed() + add)),
 				Math.min(255, Math.max(0, tmpCol.getGreen() + add)), Math.min(
 						255, Math.max(0, tmpCol.getBlue() + add)));
+	}
+
+	public KeyListener getKeyListener() {
+		return movingScene;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package de.azubi.jappybird.engine;
+package de.bno.jappybird.engine;
 
 import java.awt.Color;
 import java.awt.Font;

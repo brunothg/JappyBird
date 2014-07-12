@@ -1,4 +1,4 @@
-package de.azubi.jappybird.engine;
+package de.bno.jappybird.engine;
 
 public class Point {
 	private int x;

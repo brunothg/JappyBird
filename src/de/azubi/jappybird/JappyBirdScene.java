@@ -56,8 +56,11 @@ public class JappyBirdScene implements Scene {
 		for (int i = sunBlend; i > 0; i--) {
 			g.setColor(blend(g.getColor(), COLOR_SUN_BORDER, COLOR_SUN,
 					sunBlend));
-			g.fillOval(24 - i, 24 - i, (int) (height * SUN_SIZE + sunAdd) + i
-					* 2, (int) (height * SUN_SIZE + sunAdd) + i * 2);
+			g.fillOval((int) (24 - i + sunAdd / 2),
+					(int) (24 - i + sunAdd / 2),
+					(int) (height * SUN_SIZE + sunAdd) + i * 2, (int) (height
+							* SUN_SIZE + sunAdd)
+							+ i * 2);
 		}
 	}
 

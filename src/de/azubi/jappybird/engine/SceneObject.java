@@ -4,9 +4,9 @@ import java.awt.Graphics;
 
 public abstract class SceneObject {
 
-	private Point position;
-	private Point origin;
-	private Size size;
+	private Point position = new Point(0, 0);
+	private Point origin = new Point(0, 0);
+	private Size size = new Size(0, 0);
 
 	/**
 	 * Paint this SceneObject
@@ -24,13 +24,31 @@ public abstract class SceneObject {
 	 */
 	public void paintOnScene(Graphics g) {
 
-		int x_topLeft = -getOrigin().getX();
-		int y_topLeft = -getOrigin().getY();
+		int x_topLeft = getTopLeftPosition().getX();
+		int y_topLeft = getTopLeftPosition().getY();
 		int width = getWidth();
 		int height = getHeight();
 
 		Graphics object = g.create(x_topLeft, y_topLeft, width, height);
 		paint(object);
+	}
+
+	/**
+	 * The Position of this SceneObjects top left corner
+	 * 
+	 * @return The Position of this SceneObjects top left corner
+	 */
+	public Point getTopLeftPosition() {
+		return new Point(getX() - getOrigin().getX(), getY()
+				- getOrigin().getY());
+	}
+
+	/**
+	 * Set the Position of this SceneObjects top left corner
+	 */
+	public void setTopLeftPosition(Point p) {
+		setPosition(new Point(p.getX() + getOrigin().getX(), p.getY()
+				+ getOrigin().getY()));
 	}
 
 	/**
@@ -43,12 +61,37 @@ public abstract class SceneObject {
 	}
 
 	/**
+	 * The Y-Coordinate of this ScreenObject
+	 * 
+	 * @see #getPosition()
+	 * @return The Y-Coordinate of this ScreenObject
+	 */
+	public int getY() {
+		return getPosition().getY();
+	}
+
+	/**
+	 * The X-Coordinate of this ScreenObject
+	 * 
+	 * @see #getPosition()
+	 * @return The X-Coordinate of this ScreenObject
+	 */
+	public int getX() {
+		return getPosition().getX();
+	}
+
+	/**
 	 * Set the Position of this ScreenObject
 	 * 
 	 * @param position
 	 *            The Position of this ScreenObject
 	 */
 	public void setPosition(Point position) {
+		if (position == null) {
+			throw new NullPointerException(
+					"This SceneObject must have a position");
+		}
+
 		this.position = position;
 	}
 
@@ -81,6 +124,11 @@ public abstract class SceneObject {
 	 *            The Origin of this ScreenObject
 	 */
 	public void setOrigin(Point origin) {
+		if (origin == null) {
+			throw new NullPointerException(
+					"This SceneObject must have a origin");
+		}
+
 		this.origin = origin;
 	}
 
@@ -133,6 +181,11 @@ public abstract class SceneObject {
 	 *            Size of this ScreenObject
 	 */
 	public void setSize(Size size) {
+		if (size == null || size.getHeight() < 0 || size.getWidth() < 0) {
+			throw new NullPointerException(
+					"This SceneObject must have a positive size");
+		}
+
 		this.size = size;
 	}
 

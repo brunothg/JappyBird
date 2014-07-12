@@ -1,6 +1,5 @@
 package de.azubi.jappybird;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import de.azubi.jappybird.engine.Scene;
@@ -18,7 +17,11 @@ public class JappyBirdMovingScene implements Scene {
 
 	@Override
 	public void paintScene(Graphics g, int width, int height) {
-		// TODO Auto-generated method stub
+
+		if (!paused) {
+			time.update();
+		}
+
 	}
 
 	@Override

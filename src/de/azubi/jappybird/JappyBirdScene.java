@@ -7,13 +7,15 @@ import java.awt.image.BufferedImage;
 
 import de.azubi.jappybird.engine.Scene;
 
-public class JappyBirdScene implements Scene
-{
+public class JappyBirdScene implements Scene {
 
 	private static final long NANOSECONDS_PER_SECOND = 1_000_000_000;
 
 	private static final Color COLOR_GRAS = new Color(0x00, 0x66, 0x00);
 	private static final Color COLOR_GRAS_BRIGHT = new Color(0x00, 0xAA, 0x00);
+
+	private static final Color COLOR_SUN = Color.YELLOW;
+	private static final Color COLOR_SUN_BORDER = new Color(0xAA, 0x00, 0x00);
 
 	private static final Color COLOR_SKY_TOP = new Color(0x00, 0x00, 0x66);
 	private static final Color COLOR_SKY_BOTTOM = new Color(0x00, 0x00, 0xAA);
@@ -29,70 +31,69 @@ public class JappyBirdScene implements Scene
 
 	private long sunTime;
 
-	public JappyBirdScene()
-	{
+	public JappyBirdScene() {
 		lastTime = System.nanoTime();
 	}
 
-	private void paintNonStatic(Graphics g, int width, int height)
-	{
+	private void paintNonStatic(Graphics g, int width, int height) {
 		paintSun(g, height);
 		// TODO other ForegroundPaintings
 	}
 
-	private void paintSun(Graphics g, int height)
-	{
+	private void paintSun(Graphics g, int height) {
 		sunTime += elapsedTime;
 		sunTime %= 24 * NANOSECONDS_PER_SECOND;
 
 		long realTime = sunTime - 12 * NANOSECONDS_PER_SECOND;
 
 		long sunAddSigned = (realTime / NANOSECONDS_PER_SECOND) * 2;
-		long sunAdd = (sunAddSigned > 0) ? sunAddSigned : 12 - (12 + sunAddSigned);
+		long sunAdd = (sunAddSigned > 0) ? sunAddSigned
+				: 12 - (12 + sunAddSigned);
 
-		g.setColor(Color.YELLOW);
-		g.fillOval(24, 24, (int) (height * SUN_SIZE + sunAdd), (int) (height * SUN_SIZE + sunAdd));
+		int sunBlend = 5;
+
+		g.setColor(COLOR_SUN_BORDER);
+		for (int i = sunBlend; i > 0; i--) {
+			g.setColor(blend(g.getColor(), COLOR_SUN_BORDER, COLOR_SUN,
+					sunBlend));
+			g.fillOval(24 - i, 24 - i, (int) (height * SUN_SIZE + sunAdd) + i
+					* 2, (int) (height * SUN_SIZE + sunAdd) + i * 2);
+		}
 	}
 
-	private void paintStaticBackground(Graphics g, int width, int height)
-	{
+	private void paintStaticBackground(Graphics g, int width, int height) {
 		paintSky(g, width, height);
 		paintGround(g, width, height);
 	}
 
-	private void paintSky(Graphics g, int width, int height)
-	{
+	private void paintSky(Graphics g, int width, int height) {
 		g.setColor(COLOR_SKY_TOP);
 
 		int y_Ground_Start = (int) (height * HORIZONT);
 		int groundBlend = 10;
 
-		for (int y = 0; y < y_Ground_Start - groundBlend; y++)
-		{
+		for (int y = 0; y < y_Ground_Start - groundBlend; y++) {
 			g.drawLine(0, y, width, y);
 		}
 
-		for (int y = y_Ground_Start - groundBlend; y < y_Ground_Start; y++)
-		{
-			g.setColor(blend(g.getColor(), COLOR_SKY_BOTTOM, COLOR_GRAS, groundBlend));
+		for (int y = y_Ground_Start - groundBlend; y < y_Ground_Start; y++) {
+			g.setColor(blend(g.getColor(), COLOR_SKY_BOTTOM, COLOR_GRAS,
+					groundBlend));
 			g.drawLine(0, y, width, y);
 		}
 	}
 
-	private void paintGround(Graphics g, int width, int height)
-	{
+	private void paintGround(Graphics g, int width, int height) {
 		g.setColor(COLOR_GRAS);
 
 		int y_Ground_Start = (int) (height * HORIZONT);
 
 		g.fillRect(0, y_Ground_Start, width, height);
 
-		for (int y = (int) (height * HORIZONT) + 15; y < height; y++)
-		{
+		for (int y = (int) (height * HORIZONT) + 15; y < height; y++) {
 			Color tmpCol = g.getColor();
 
-			if (isDarker(tmpCol, COLOR_GRAS_BRIGHT) && y % 3 == 0)
-			{
+			if (isDarker(tmpCol, COLOR_GRAS_BRIGHT) && y % 3 == 0) {
 				g.setColor(getColor(tmpCol, 1));
 			}
 
@@ -100,8 +101,7 @@ public class JappyBirdScene implements Scene
 		}
 	}
 
-	private Color blend(Color c, Color cs, Color ce, int step)
-	{
+	private Color blend(Color c, Color cs, Color ce, int step) {
 		int addR, addG, addB;
 
 		addR = (ce.getRed() - cs.getRed()) / step;
@@ -109,33 +109,31 @@ public class JappyBirdScene implements Scene
 		addB = (ce.getBlue() - cs.getBlue()) / step;
 
 		return new Color(Math.min(255, Math.max(0, c.getRed() + addR)),
-			Math.min(255, Math.max(0, c.getGreen() + addG)), Math.min(255, Math.max(0, c.getBlue() + addB)));
+				Math.min(255, Math.max(0, c.getGreen() + addG)), Math.min(255,
+						Math.max(0, c.getBlue() + addB)));
 	}
 
-	private boolean isDarker(Color c1, Color c2)
-	{
+	private boolean isDarker(Color c1, Color c2) {
 		boolean ret = false;
 
 		int col1 = c1.getBlue() + c1.getGreen() + c1.getRed();
 		int col2 = c2.getBlue() + c2.getGreen() + c2.getRed();
 
-		if ((col1 / 3.0) < (col2 / 3.0))
-		{
+		if ((col1 / 3.0) < (col2 / 3.0)) {
 			ret = true;
 		}
 
 		return ret;
 	}
 
-	private Color getColor(Color tmpCol, int add)
-	{
-		return new Color(Math.min(255, Math.max(0, tmpCol.getRed() + add)), Math.min(255,
-			Math.max(0, tmpCol.getGreen() + add)), Math.min(255, Math.max(0, tmpCol.getBlue() + add)));
+	private Color getColor(Color tmpCol, int add) {
+		return new Color(Math.min(255, Math.max(0, tmpCol.getRed() + add)),
+				Math.min(255, Math.max(0, tmpCol.getGreen() + add)), Math.min(
+						255, Math.max(0, tmpCol.getBlue() + add)));
 	}
 
 	@Override
-	public void paintScene(Graphics g, int width, int height)
-	{
+	public void paintScene(Graphics g, int width, int height) {
 		long actTime = System.nanoTime();
 		elapsedTime = actTime - lastTime;
 		lastTime = actTime;
@@ -143,36 +141,38 @@ public class JappyBirdScene implements Scene
 		Graphics2D gr = getGraphics(width, height);
 		paintNonStatic(gr, width, height);
 
-		g.drawImage(screen, 0, 0, width, height, 0, 0, screen.getWidth(), screen.getHeight(), null);
+		g.drawImage(screen, 0, 0, width, height, 0, 0, screen.getWidth(),
+				screen.getHeight(), null);
 
 		gr.finalize();
 	}
 
-	private Graphics2D getGraphics(int width, int height)
-	{
+	private Graphics2D getGraphics(int width, int height) {
 		boolean paintBG = false;
 
-		if (screenStatic == null || screenStatic.getWidth() != width || screenStatic.getHeight() != height)
-		{
-			screenStatic = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		if (screenStatic == null || screenStatic.getWidth() != width
+				|| screenStatic.getHeight() != height) {
+			screenStatic = new BufferedImage(width, height,
+					BufferedImage.TYPE_INT_ARGB);
 			paintBG = true;
 		}
 
-		if (screen == null || screen.getWidth() != width || screen.getHeight() != height)
-		{
-			screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		if (screen == null || screen.getWidth() != width
+				|| screen.getHeight() != height) {
+			screen = new BufferedImage(width, height,
+					BufferedImage.TYPE_INT_ARGB);
 		}
 
 		Graphics2D gr = screenStatic.createGraphics();
 
-		if (paintBG)
-		{
+		if (paintBG) {
 			paintStaticBackground(gr, width, height);
 		}
 
 		Graphics2D ret = screen.createGraphics();
-		ret.drawImage(screenStatic, 0, 0, screen.getWidth(), screen.getHeight(), 0, 0, screenStatic.getWidth(),
-			screenStatic.getHeight(), null);
+		ret.drawImage(screenStatic, 0, 0, screen.getWidth(),
+				screen.getHeight(), 0, 0, screenStatic.getWidth(),
+				screenStatic.getHeight(), null);
 
 		gr.finalize();
 

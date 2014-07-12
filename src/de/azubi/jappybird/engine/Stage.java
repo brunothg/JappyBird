@@ -7,58 +7,63 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class Stage extends JPanel
-{
+/**
+ * Gepufferte Swing Komponente um Scenes zu zeichnen
+ * 
+ * @author Marvin Bruns
+ */
+public class Stage extends JPanel {
 
 	private static final long serialVersionUID = -1523091347460518863L;
 	private BufferedImage offScreen;
 	private Scene scene;
 
-	public Stage()
-	{
+	public Stage() {
 		setOpaque(true);
 		setBackground(Color.BLACK);
 	}
 
-	public void setScene(Scene scene)
-	{
+	/**
+	 * Setzt die sichtbare Szene
+	 * 
+	 * @param scene
+	 *            Szene, die gezeichnet werden soll
+	 */
+	public void setScene(Scene scene) {
 		this.scene = scene;
 
 		repaint();
 	}
 
-	public Scene getScene()
-	{
+	public Scene getScene() {
 		return this.scene;
 	}
 
 	@Override
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		Graphics2D graphics = getOffScreenGraphics();
 
 		super.paint(graphics);
 
-		g.drawImage(offScreen, 0, 0, getWidth(), getHeight(), 0, 0, offScreen.getWidth(), offScreen.getHeight(), null);
+		g.drawImage(offScreen, 0, 0, getWidth(), getHeight(), 0, 0,
+				offScreen.getWidth(), offScreen.getHeight(), null);
 
 		graphics.finalize();
 	}
 
-	private Graphics2D getOffScreenGraphics()
-	{
-		if (offScreen == null || offScreen.getWidth() != getWidth() || offScreen.getHeight() != getHeight())
-		{
-			offScreen = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+	private Graphics2D getOffScreenGraphics() {
+		if (offScreen == null || offScreen.getWidth() != getWidth()
+				|| offScreen.getHeight() != getHeight()) {
+			offScreen = new BufferedImage(getWidth(), getHeight(),
+					BufferedImage.TYPE_INT_RGB);
 		}
 
 		return offScreen.createGraphics();
 	}
 
 	@Override
-	protected void paintComponent(Graphics g)
-	{
-		if (scene == null)
-		{
+	protected void paintComponent(Graphics g) {
+		if (scene == null) {
 			super.paintComponent(g);
 			return;
 		}

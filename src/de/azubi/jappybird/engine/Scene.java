@@ -4,6 +4,16 @@ import java.awt.Graphics;
 
 public interface Scene {
 
+	/**
+	 * Zeichnet die Szene im aktuellen Zustand
+	 * 
+	 * @param g
+	 *            Graphics Objekt auf das gezeichnet wird
+	 * @param width
+	 *            Breite der Zeichenfläche
+	 * @param height
+	 *            Höhe der Zeichenfläche
+	 */
 	public void paintScene(Graphics g, int width, int height);
 
 	/**

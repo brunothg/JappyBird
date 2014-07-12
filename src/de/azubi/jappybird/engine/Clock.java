@@ -3,11 +3,16 @@ package de.azubi.jappybird.engine;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Clock extends Thread
-{
+/**
+ * 
+ * Eine auf Frames per second aufbauender Impulsgeber. Wird genutzt um die
+ * Szenen in regelmäßigen Abständen neu zu zeichnen.
+ * 
+ * @author Marvin Bruns
+ *
+ */
+public class Clock extends Thread {
 
-	private static final int NANOSECONDS_PER_MILLISECOND = 1000000;
-	private static final int NANOSECONDS_PER_SECOND = 1000000000;
 	public static final int FPS_AS_FAST_AS_POSSIBLE = -1;
 	public static final int FPS_STOP = 0;
 
@@ -18,133 +23,101 @@ public class Clock extends Thread
 
 	private List<ClockListener> listeners;
 
-	public Clock()
-	{
+	public Clock() {
 		this(-1);
 	}
 
-	public Clock(float framesPerSecond)
-	{
+	public Clock(float framesPerSecond) {
 		this.framesPerSecond = framesPerSecond;
 		this.listeners = new LinkedList<ClockListener>();
 	}
 
-	public void run()
-	{
+	public void run() {
 		running = true;
 		setActualTime();
 
-		while (running)
-		{
+		while (running) {
 			doWork();
 		}
 
 	}
 
-	private void setActualTime()
-	{
+	private void setActualTime() {
 		lastTime = System.nanoTime();
 	}
 
-	private void doWork()
-	{
+	private void doWork() {
 		double fps = getFramesPerSecond();
 
-		if (fps < FPS_STOP)
-		{
+		if (fps < FPS_STOP) {
 			tick();
 			return;
-		}
-		else if (fps == FPS_STOP)
-		{
+		} else if (fps == FPS_STOP) {
 			return;
 		}
 
 		long time = System.nanoTime();
 		long elapsedTime = time - lastTime;
-		int timeForOneFrame = (int) (NANOSECONDS_PER_SECOND / fps);
+		int timeForOneFrame = (int) (Time.NANOSECONDS_PER_SECOND / fps);
 
-		if (elapsedTime >= timeForOneFrame)
-		{
+		if (elapsedTime >= timeForOneFrame) {
 			long ticks = elapsedTime / timeForOneFrame;
 
-			for (int i = 0; i < ticks && i >= 0; i++)
-			{
+			for (int i = 0; i < ticks && i >= 0; i++) {
 				tick();
 			}
 
 			lastTime += ticks * timeForOneFrame;
-		}
-		else
-		{
+		} else {
 			long timeToTick = timeForOneFrame - elapsedTime;
 
-			try
-			{
-				Thread
-					.sleep(timeToTick / NANOSECONDS_PER_MILLISECOND, (int) (timeToTick % NANOSECONDS_PER_MILLISECOND));
-			}
-			catch (InterruptedException e)
-			{
+			try {
+				Thread.sleep(timeToTick / Time.NANOSECONDS_PER_MILLISECOND,
+						(int) (timeToTick % Time.NANOSECONDS_PER_MILLISECOND));
+			} catch (InterruptedException e) {
 			}
 		}
 	}
 
-	private void tick()
-	{
-		synchronized (listeners)
-		{
-			for (ClockListener cl : listeners)
-			{
-				try
-				{
+	private void tick() {
+		synchronized (listeners) {
+			for (ClockListener cl : listeners) {
+				try {
 					cl.tick();
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 				}
 			}
 		}
 	}
 
-	public void addClockListener(ClockListener cl)
-	{
-		synchronized (listeners)
-		{
+	public void addClockListener(ClockListener cl) {
+		synchronized (listeners) {
 			listeners.add(cl);
 		}
 	}
 
-	public void removeClockListener(ClockListener cl)
-	{
-		synchronized (listeners)
-		{
+	public void removeClockListener(ClockListener cl) {
+		synchronized (listeners) {
 			listeners.remove(cl);
 		}
 	}
 
-	public synchronized double getFramesPerSecond()
-	{
+	public synchronized double getFramesPerSecond() {
 		return framesPerSecond;
 	}
 
-	public synchronized void setFramesPerSecond(double framesPerSecond)
-	{
+	public synchronized void setFramesPerSecond(double framesPerSecond) {
 		setActualTime();
 
 		this.framesPerSecond = framesPerSecond;
 	}
 
-	public void interrupt()
-	{
+	public void interrupt() {
 		running = false;
 
-		try
-		{
+		try {
 			super.interrupt();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
 	}
 

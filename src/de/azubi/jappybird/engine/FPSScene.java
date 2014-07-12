@@ -4,6 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+/**
+ * Eine Szene, die die Frames per second in die obere linke Ecke zeichenet und
+ * eine andere Szene aufnimmt und darunter zeichnet.
+ * 
+ * @author Marvin Bruns
+ */
 public class FPSScene implements Scene {
 
 	private Scene scene;
@@ -12,6 +18,15 @@ public class FPSScene implements Scene {
 	private Color textColor;
 	private Font font;
 
+	/**
+	 * Neue FPS Szene. Wird der Startparaeter übergeben beeinflusst dies nicht
+	 * den Status der anderen Szene.
+	 * 
+	 * @param scene
+	 *            Eigentlich zu zeichenende Szene
+	 * @param start
+	 *            true wenn die Szene gestartet werden soll
+	 */
 	public FPSScene(Scene scene, boolean start) {
 		this.scene = scene;
 		this.time = new Time();

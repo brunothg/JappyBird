@@ -144,7 +144,6 @@ public class JappyBirdScene implements Scene {
 
 	@Override
 	public void paintScene(Graphics g, int width, int height) {
-		long actTime = System.nanoTime();
 
 		if (!paused) {
 			time.update();

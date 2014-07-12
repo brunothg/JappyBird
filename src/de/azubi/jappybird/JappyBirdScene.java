@@ -31,8 +31,14 @@ public class JappyBirdScene implements Scene {
 
 	private long sunTime;
 
+	private boolean paused;
+
+	public JappyBirdScene(boolean start) {
+		paused = !start;
+	}
+
 	public JappyBirdScene() {
-		lastTime = System.nanoTime();
+		this(false);
 	}
 
 	private void paintNonStatic(Graphics g, int width, int height) {
@@ -135,11 +141,18 @@ public class JappyBirdScene implements Scene {
 						255, Math.max(0, tmpCol.getBlue() + add)));
 	}
 
+	public void resetTime() {
+		lastTime = System.nanoTime();
+	}
+
 	@Override
 	public void paintScene(Graphics g, int width, int height) {
 		long actTime = System.nanoTime();
-		elapsedTime = actTime - lastTime;
-		lastTime = actTime;
+
+		if (!paused) {
+			elapsedTime = actTime - lastTime;
+			lastTime = actTime;
+		}
 
 		Graphics2D gr = getGraphics(width, height);
 		paintNonStatic(gr, width, height);
@@ -180,5 +193,23 @@ public class JappyBirdScene implements Scene {
 		gr.finalize();
 
 		return ret;
+	}
+
+	@Override
+	public void pause() {
+		paused = true;
+		elapsedTime = 0;
+	}
+
+	@Override
+	public void stop() {
+		paused = true;
+		elapsedTime = 0;
+	}
+
+	@Override
+	public void start() {
+		paused = false;
+		resetTime();
 	}
 }

@@ -21,6 +21,8 @@ public class Stage extends JPanel {
 	public Stage() {
 		setOpaque(true);
 		setBackground(Color.BLACK);
+		setFocusable(true);
+		setRequestFocusEnabled(true);
 	}
 
 	/**
@@ -30,7 +32,20 @@ public class Stage extends JPanel {
 	 *            Szene, die gezeichnet werden soll
 	 */
 	public void setScene(Scene scene) {
+
+		if (this.scene != null) {
+			removeKeyListener(this.scene.getListener().getKeyListener());
+			removeMouseListener(this.scene.getListener().getMouseListener());
+			removeMouseMotionListener(this.scene.getListener()
+					.getMouseMotionListener());
+		}
+
 		this.scene = scene;
+
+		addKeyListener(this.scene.getListener().getKeyListener());
+		addMouseListener(this.scene.getListener().getMouseListener());
+		addMouseMotionListener(this.scene.getListener()
+				.getMouseMotionListener());
 
 		repaint();
 	}

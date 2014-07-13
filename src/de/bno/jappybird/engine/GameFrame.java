@@ -37,6 +37,7 @@ public class GameFrame extends JFrame implements ClockListener {
 
 		stage = new Stage();
 		add(stage);
+		stage.requestFocusInWindow();
 	}
 
 	@Override

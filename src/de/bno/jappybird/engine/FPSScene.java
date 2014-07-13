@@ -102,4 +102,9 @@ public class FPSScene implements Scene {
 		this.font = font;
 	}
 
+	@Override
+	public Listeners getListener() {
+		return null;
+	}
+
 }

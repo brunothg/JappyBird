@@ -33,4 +33,6 @@ public interface Scene {
 	 */
 	public void start();
 
+	public Listeners getListener();
+
 }

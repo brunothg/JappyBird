@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
+import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Scene;
 import de.bno.jappybird.engine.Time;
 
@@ -149,10 +149,6 @@ public class JappyBirdScene implements Scene {
 						255, Math.max(0, tmpCol.getBlue() + add)));
 	}
 
-	public KeyListener getKeyListener() {
-		return movingScene;
-	}
-
 	@Override
 	public void paintScene(Graphics2D g, int width, int height) {
 
@@ -220,5 +216,10 @@ public class JappyBirdScene implements Scene {
 		paused = false;
 		time.reset();
 		movingScene.start();
+	}
+
+	@Override
+	public Listeners getListener() {
+		return new Listeners(movingScene, null, null);
 	}
 }

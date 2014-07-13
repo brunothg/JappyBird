@@ -14,6 +14,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.util.LinkedList;
 
+import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Point;
 import de.bno.jappybird.engine.Scene;
 import de.bno.jappybird.engine.Time;
@@ -207,5 +208,10 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		}
 
 		JUMP_SPEED = js;
+	}
+
+	@Override
+	public Listeners getListener() {
+		return new Listeners(this, null, null);
 	}
 }

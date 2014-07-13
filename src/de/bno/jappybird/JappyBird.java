@@ -21,7 +21,6 @@ public class JappyBird {
 
 		JappyBirdScene scene = new JappyBirdScene();
 		gameFrame.setScene(scene);
-		gameFrame.addKeyListener(scene.getKeyListener());
 
 		gameFrame.setVisible(true);
 		clk.start();

@@ -2,7 +2,7 @@ package de.bno.jappybird.engine;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  * Eine Szene, die die Frames per second in die obere linke Ecke zeichenet und
@@ -40,7 +40,7 @@ public class FPSScene implements Scene {
 	}
 
 	@Override
-	public void paintScene(Graphics g, int width, int height) {
+	public void paintScene(Graphics2D g, int width, int height) {
 		scene.paintScene(g, width, height);
 
 		if (!paused) {

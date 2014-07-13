@@ -1,6 +1,6 @@
 package de.bno.jappybird.engine;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public interface Scene {
 
@@ -14,7 +14,7 @@ public interface Scene {
 	 * @param height
 	 *            Höhe der Zeichenfläche
 	 */
-	public void paintScene(Graphics g, int width, int height);
+	public void paintScene(Graphics2D g, int width, int height);
 
 	/**
 	 * Hält die Szene an.

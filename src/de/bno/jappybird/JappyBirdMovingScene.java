@@ -23,9 +23,9 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private static final double COLLISION_BOTTOM = 0.9;
 
-	private static final double JUMP_SPEED = 0.4;
+	private static double JUMP_SPEED = 0.4;
 
-	private static final double G = 0.9;
+	private static double G = 0.9;
 
 	private boolean paused;
 	private boolean stopped;
@@ -43,14 +43,10 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	}
 
 	@Override
-	public void paintScene(Graphics g, int width, int height) {
+	public void paintScene(Graphics2D g, int width, int height) {
 
-		Graphics2D g2d = null;
-		if (g instanceof Graphics2D) {
-			g2d = (Graphics2D) g;
-			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
-		}
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (!paused) {
 			time.update();
@@ -58,7 +54,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		}
 
 		paintHeli(g, width, height);
-		paintPoints(g2d, width, height);
+		paintPoints(g, width, height);
 	}
 
 	private void paintPoints(Graphics2D g, int width, int height) {
@@ -181,4 +177,19 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		}
 	}
 
+	public static void setG(double g) {
+		if (g < 0) {
+			g = -g;
+		}
+
+		G = g;
+	}
+
+	public static void setJumpSpeed(double js) {
+		if (js < 0) {
+			js = -js;
+		}
+
+		JUMP_SPEED = js;
+	}
 }

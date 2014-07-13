@@ -39,18 +39,6 @@ public class Stage extends JPanel {
 		return this.scene;
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		Graphics2D graphics = getOffScreenGraphics();
-
-		super.paint(graphics);
-
-		g.drawImage(offScreen, 0, 0, getWidth(), getHeight(), 0, 0,
-				offScreen.getWidth(), offScreen.getHeight(), null);
-
-		graphics.finalize();
-	}
-
 	private Graphics2D getOffScreenGraphics() {
 		if (offScreen == null || offScreen.getWidth() != getWidth()
 				|| offScreen.getHeight() != getHeight()) {
@@ -68,6 +56,12 @@ public class Stage extends JPanel {
 			return;
 		}
 
-		scene.paintScene(g, getWidth(), getHeight());
+		Graphics2D graphics = getOffScreenGraphics();
+		scene.paintScene(graphics, getWidth(), getHeight());
+
+		g.drawImage(offScreen, 0, 0, getWidth(), getHeight(), 0, 0,
+				offScreen.getWidth(), offScreen.getHeight(), null);
+
+		graphics.finalize();
 	}
 }

@@ -154,7 +154,7 @@ public class JappyBirdScene implements Scene {
 	}
 
 	@Override
-	public void paintScene(Graphics g, int width, int height) {
+	public void paintScene(Graphics2D g, int width, int height) {
 
 		if (!paused) {
 			time.update();

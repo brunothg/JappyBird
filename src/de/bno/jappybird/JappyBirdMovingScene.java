@@ -12,7 +12,9 @@ import java.awt.event.KeyListener;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Point;
@@ -20,6 +22,10 @@ import de.bno.jappybird.engine.Scene;
 import de.bno.jappybird.engine.Time;
 
 public class JappyBirdMovingScene implements Scene, KeyListener {
+
+	private static final double SPEED_OBSTACLE = 0.1;
+
+	private static final double WIDTH_OBSTACLE = 0.08;
 
 	private static final Color COLOR_TEXT_POINTS = Color.WHITE;
 
@@ -39,12 +45,15 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private LinkedList<Obstacle> obstacles;
 
+	private Random rand;
+
 	public JappyBirdMovingScene(boolean start) {
 		this.paused = !start;
 		this.time = new Time();
 		this.heli = new Heli(this.time);
 		this.points = 0;
 		this.obstacles = new LinkedList<Obstacle>();
+		this.rand = new Random(System.nanoTime());
 	}
 
 	@Override
@@ -56,7 +65,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		if (!paused) {
 			time.update();
 			points += time.elapsedTime();
-			updateObstacles();
+			updateObstacles(width, height);
 		}
 
 		paintHeli(g, width, height);
@@ -64,13 +73,68 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		paintPoints(g, width, height);
 	}
 
-	private void updateObstacles() {
-		// TODO updateObstacles
+	private void updateObstacles(int width, int height) {
+
+		moveObstacles(width, height);
+		resizeObstacles(width, height);
+		addAndRemoveObstacles(width, height);
 
 	}
 
+	private void addAndRemoveObstacles(int width, int height) {
+
+		addObstacles();
+		removeObstacles();
+	}
+
+	private void addObstacles() {
+		// TODO add obstacles
+
+		if (obstacles.isEmpty()) {
+
+			Obstacle o = new Obstacle(
+					rand.nextBoolean() ? Obstacle.ORIENTATION_BOTTOM
+							: Obstacle.ORIENTATION_TOP);
+			o.setRel_size(0.5);
+			obstacles.add(o);
+		}
+	}
+
+	private void removeObstacles() {
+		Iterator<Obstacle> iterator = obstacles.iterator();
+		while (iterator.hasNext()) {
+			Obstacle o = iterator.next();
+
+			if (o.getTopLeftPosition().getX() + o.getWidth() < 0) {
+				iterator.remove();
+			}
+		}
+	}
+
+	private void resizeObstacles(int width, int height) {
+
+		for (Obstacle o : obstacles) {
+			o.setSize((int) (width * WIDTH_OBSTACLE),
+					(int) (height * o.getRel_size()));
+		}
+	}
+
+	private void moveObstacles(int width, int height) {
+
+		for (Obstacle o : obstacles) {
+			o.setRelPosition(o.getRelPosition()
+					- (Time.Seconds(time.elapsedTime()) * SPEED_OBSTACLE));
+			o.setPosition((int) (width * o.getRelPosition()), (o
+					.getOrientation() == Obstacle.ORIENTATION_TOP) ? 0
+					: (int) (height * COLLISION_BOTTOM));
+		}
+	}
+
 	private void paintObstacles(Graphics2D g, int width, int height) {
-		// TODO paintObstacles
+
+		for (Obstacle o : obstacles) {
+			o.paintOnScene(g);
+		}
 	}
 
 	private void paintPoints(Graphics2D g, int width, int height) {

@@ -14,9 +14,11 @@ public class Obstacle extends SceneObject {
 	private int orientation;
 
 	private double rel_position;
+	private double rel_size;
 
 	public Obstacle(int orientation) {
 		this.orientation = orientation;
+		this.rel_position = 1;
 	}
 
 	@Override
@@ -27,8 +29,7 @@ public class Obstacle extends SceneObject {
 
 	@Override
 	public Point getOrigin() {
-		return new Point(getWidth() / 2, (orientation == ORIENTATION_TOP) ? 0
-				: getHeight());
+		return new Point(0, (orientation == ORIENTATION_TOP) ? 0 : getHeight());
 	}
 
 	public int getOrientation() {
@@ -41,5 +42,13 @@ public class Obstacle extends SceneObject {
 
 	public void setRelPosition(double rel_position) {
 		this.rel_position = rel_position;
+	}
+
+	public double getRel_size() {
+		return rel_size;
+	}
+
+	public void setRel_size(double rel_size) {
+		this.rel_size = rel_size;
 	}
 }

@@ -31,7 +31,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	private boolean stopped;
 	private Time time;
 
-	private int points;
+	private long points;
 
 	private Heli heli;
 
@@ -54,6 +54,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 		if (!paused) {
 			time.update();
+			points += time.elapsedTime();
 		}
 
 		paintHeli(g, width, height);
@@ -62,8 +63,9 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private void paintPoints(Graphics2D g, int width, int height) {
 
-		TextLayout text = new TextLayout("" + points, new Font(Font.SANS_SERIF,
-				Font.BOLD, 30), new FontRenderContext(null, true, false));
+		TextLayout text = new TextLayout("" + (int) Time.Seconds(points),
+				new Font(Font.SANS_SERIF, Font.BOLD, 30),
+				new FontRenderContext(null, true, false));
 
 		AffineTransform textAt = new AffineTransform();
 		textAt.translate(-text.getBounds().getWidth() / 2, text.getBounds()

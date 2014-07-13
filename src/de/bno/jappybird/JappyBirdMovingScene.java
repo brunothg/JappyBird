@@ -194,6 +194,11 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		}
 	}
 
+	@Override
+	public Listeners getListener() {
+		return new Listeners(this, null, null);
+	}
+
 	public static void setG(double g) {
 		if (g < 0) {
 			g = -g;
@@ -210,8 +215,4 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		JUMP_SPEED = js;
 	}
 
-	@Override
-	public Listeners getListener() {
-		return new Listeners(this, null, null);
-	}
 }

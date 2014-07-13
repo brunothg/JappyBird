@@ -12,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
+import java.util.LinkedList;
 
 import de.bno.jappybird.engine.Point;
 import de.bno.jappybird.engine.Scene;
@@ -35,11 +36,14 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private Heli heli;
 
+	private LinkedList<Obstacle> obstacles;
+
 	public JappyBirdMovingScene(boolean start) {
 		this.paused = !start;
 		this.time = new Time();
 		this.heli = new Heli(this.time);
 		this.points = 0;
+		this.obstacles = new LinkedList<Obstacle>();
 	}
 
 	@Override
@@ -51,10 +55,21 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		if (!paused) {
 			time.update();
 			points += time.elapsedTime();
+			updateObstacles();
 		}
 
 		paintHeli(g, width, height);
+		paintObstacles(g, width, height);
 		paintPoints(g, width, height);
+	}
+
+	private void updateObstacles() {
+		// TODO updateObstacles
+
+	}
+
+	private void paintObstacles(Graphics2D g, int width, int height) {
+		// TODO paintObstacles
 	}
 
 	private void paintPoints(Graphics2D g, int width, int height) {
@@ -153,6 +168,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 			heli.setAusrueckung(0);
 			points = 0;
 			stopped = false;
+			obstacles.clear();
 		}
 
 		time.reset();

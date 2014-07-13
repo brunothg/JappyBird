@@ -3,6 +3,7 @@ package de.bno.jappybird;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
@@ -44,12 +45,16 @@ public class JappyBirdScene implements Scene {
 		this(true);
 	}
 
-	private void paintNonStatic(Graphics g, int width, int height) {
+	private void paintNonStatic(Graphics2D g, int width, int height) {
 		paintSun(g, height);
 		movingScene.paintScene(g, width, height);
 	}
 
-	private void paintSun(Graphics g, int height) {
+	private void paintSun(Graphics2D g, int height) {
+
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
 		sunTime += time.elapsedTime();
 		sunTime %= 24 * Time.NANOSECONDS_PER_SECOND;
 

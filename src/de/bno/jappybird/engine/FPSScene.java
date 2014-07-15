@@ -104,6 +104,11 @@ public class FPSScene implements Scene {
 
 	@Override
 	public Listeners getListener() {
+
+		if (scene != null) {
+			return scene.getListener();
+		}
+
 		return null;
 	}
 

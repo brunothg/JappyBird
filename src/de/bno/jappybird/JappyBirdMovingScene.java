@@ -65,9 +65,9 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		if (!paused) {
 			time.update();
 			points += time.elapsedTime();
-			updateObstacles(width, height);
 		}
 
+		updateObstacles(width, height);
 		paintHeli(g, width, height);
 		paintObstacles(g, width, height);
 		paintPoints(g, width, height);

@@ -3,6 +3,7 @@ package de.bno.jappybird;
 import javax.swing.UIManager;
 
 import de.bno.jappybird.engine.Clock;
+import de.bno.jappybird.engine.FPSScene;
 import de.bno.jappybird.engine.GameFrame;
 import de.bno.jappybird.engine.InternalImage;
 
@@ -20,7 +21,7 @@ public class JappyBird {
 		gameFrame.setClk(clk);
 
 		JappyBirdScene scene = new JappyBirdScene();
-		gameFrame.setScene(scene);
+		gameFrame.setScene(new FPSScene(scene));
 
 		gameFrame.setVisible(true);
 		clk.start();

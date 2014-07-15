@@ -18,8 +18,8 @@ public class JappyBirdScene implements Scene {
 	private static final Color COLOR_SUN = Color.YELLOW;
 	private static final Color COLOR_SUN_BORDER = new Color(0xAA, 0x00, 0x00);
 
-	private static final Color COLOR_SKY_TOP = new Color(0x00, 0x00, 0x66);
-	private static final Color COLOR_SKY_BOTTOM = new Color(0x00, 0x00, 0xAA);
+	private static final Color COLOR_SKY_TOP = new Color(0x55, 0x55, 0xAA);
+	private static final Color COLOR_SKY_BOTTOM = new Color(0x55, 0x55, 0xFF);
 
 	private static final double HORIZONT = 0.7;
 	private static final double SUN_SIZE = 0.15;

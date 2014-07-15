@@ -34,18 +34,26 @@ public class Stage extends JPanel {
 	public void setScene(Scene scene) {
 
 		if (this.scene != null) {
-			removeKeyListener(this.scene.getListener().getKeyListener());
-			removeMouseListener(this.scene.getListener().getMouseListener());
-			removeMouseMotionListener(this.scene.getListener()
-					.getMouseMotionListener());
+			Listeners listener = this.scene.getListener();
+
+			if (listener != null) {
+				removeKeyListener(listener.getKeyListener());
+				removeMouseListener(this.scene.getListener().getMouseListener());
+				removeMouseMotionListener(this.scene.getListener()
+						.getMouseMotionListener());
+			}
 		}
 
 		this.scene = scene;
 
-		addKeyListener(this.scene.getListener().getKeyListener());
-		addMouseListener(this.scene.getListener().getMouseListener());
-		addMouseMotionListener(this.scene.getListener()
-				.getMouseMotionListener());
+		Listeners listener = this.scene.getListener();
+
+		if (listener != null) {
+			addKeyListener(this.scene.getListener().getKeyListener());
+			addMouseListener(this.scene.getListener().getMouseListener());
+			addMouseMotionListener(this.scene.getListener()
+					.getMouseMotionListener());
+		}
 
 		repaint();
 	}

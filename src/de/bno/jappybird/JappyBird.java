@@ -17,6 +17,7 @@ public class JappyBird {
 		GameFrame gameFrame = new GameFrame("JappyBird");
 		gameFrame.setSize(800, 600);
 		gameFrame.setMinimumSize(gameFrame.getSize());
+		gameFrame.setIconImage(InternalImage.load("logo.png"));
 		gameFrame.setClk(clk);
 
 		JappyBirdScene scene = new JappyBirdScene();

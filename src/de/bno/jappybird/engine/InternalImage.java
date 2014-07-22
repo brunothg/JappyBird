@@ -10,6 +10,13 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Klasse um Bilddateien aus dem Jar zu laden. Einmal geladene Bilder werden Im
+ * Speicher gehalten um für spätere Zugriffe direkt verfügbar zu sein.
+ * 
+ * @author Marvin Bruns
+ *
+ */
 public class InternalImage {
 
 	static Map<String, Image> loadedImages;
@@ -19,6 +26,11 @@ public class InternalImage {
 		loadedImages = new HashMap<String, Image>();
 	}
 
+	/**
+	 * @see #fullLoad(String)
+	 * @param s
+	 * @return Image or null if any Exception is thrown
+	 */
 	public static Image load(String s) {
 
 		try {
@@ -29,6 +41,15 @@ public class InternalImage {
 		return null;
 	}
 
+	/**
+	 * Reloads the images
+	 * 
+	 * @param s
+	 *            Path to image relative to root folder
+	 * @return The Image
+	 * @throws IOException
+	 *             if an error occurs during reading
+	 */
 	public static Image reloadFull(String s) throws IOException {
 		Image ret;
 
@@ -48,9 +69,28 @@ public class InternalImage {
 	}
 
 	public static void setRootFolder(String s) {
+		if (s == null) {
+			root = "";
+			return;
+		}
+
 		root = s;
+
+		if (!root.isEmpty() && root.endsWith("/")) {
+			root += "/";
+		}
 	}
 
+	/**
+	 * Load an image from given path relative to root folder. If it has been
+	 * loaded before a reference is returned.
+	 * 
+	 * @param s
+	 *            Path to image relative to root folder
+	 * @return The image
+	 * @throws IOException
+	 *             if an error occurs during reading
+	 */
 	public static Image fullLoad(String s) throws IOException {
 
 		Image ret;
@@ -73,6 +113,21 @@ public class InternalImage {
 		return ret;
 	}
 
+	/**
+	 * Tries to {@link #fullLoad(String)} the image and resize it. If the
+	 * loading process fails this method returns the same as
+	 * {@link #load(String)} and may be null. <br>
+	 * If the resizing succeeds a new instance is returned. Otherwise the return
+	 * value is a reference.
+	 * 
+	 * @param s
+	 *            Path to image relative to root folder
+	 * @param width
+	 *            Desired width of Image
+	 * @param height
+	 *            Desired height of Image
+	 * @return null or the resized Image.
+	 */
 	public static Image load(String s, int width, int height) {
 		Image img;
 
@@ -99,5 +154,13 @@ public class InternalImage {
 				img.getWidth(observer), img.getHeight(observer), observer);
 
 		return ret;
+	}
+
+	public static void clearMemory() {
+		loadedImages.clear();
+	}
+
+	public static void removeImage(String img) {
+		loadedImages.remove(img);
 	}
 }

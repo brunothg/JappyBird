@@ -1,11 +1,19 @@
 package de.bno.jappybird.engine;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class SceneObject {
 
-	private Point position = new Point(0, 0);
-	private Size size = new Size(0, 0);
+	private Point position;
+	private Size size;
+	private boolean drawBoundingBox;
+
+	public SceneObject() {
+		position = new Point(0, 0);
+		size = new Size(0, 0);
+		setDrawBoundingBox(false);
+	}
 
 	/**
 	 * Paint this SceneObject
@@ -28,8 +36,13 @@ public abstract class SceneObject {
 		int width = getWidth();
 		int height = getHeight();
 
-		Graphics object = g.create(x_topLeft, y_topLeft, width, height);
+		Graphics object = g.create(x_topLeft, y_topLeft, width + 1, height + 1);
 		paint(object);
+
+		if (isDrawBoundingBox()) {
+			object.setColor(Color.BLACK);
+			object.drawRect(0, 0, width, height);
+		}
 	}
 
 	/**
@@ -167,6 +180,14 @@ public abstract class SceneObject {
 	 */
 	public void setSize(int width, int height) {
 		setSize(new Size(width, height));
+	}
+
+	public boolean isDrawBoundingBox() {
+		return drawBoundingBox;
+	}
+
+	public void setDrawBoundingBox(boolean drawBoundingBox) {
+		this.drawBoundingBox = drawBoundingBox;
 	}
 
 }

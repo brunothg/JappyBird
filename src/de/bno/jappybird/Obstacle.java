@@ -22,7 +22,7 @@ public class Obstacle extends SceneObject {
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g, boolean onScreen) {
 		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}

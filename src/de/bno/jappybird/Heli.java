@@ -26,7 +26,7 @@ public class Heli extends SceneObject {
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g, boolean onScreen) {
 		try {
 			Image img = getHeliImage();
 			g.drawImage(img, 0, 0, getWidth(), getHeight(), 0, 0,
@@ -36,9 +36,12 @@ public class Heli extends SceneObject {
 			g.fillRect(0, 0, getWidth(), getHeight());
 		}
 
-		umdrehung += Time.Seconds(time.elapsedTime()) * 8.5;
-		if (umdrehung > 2) {
-			umdrehung = umdrehung % 2;
+		if (onScreen) {
+
+			umdrehung += Time.Seconds(time.elapsedTime()) * 8.5;
+			if (umdrehung > 2) {
+				umdrehung = umdrehung % 2;
+			}
 		}
 	}
 

@@ -196,6 +196,13 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 			collide();
 			return;
 		}
+
+		for (Obstacle o : obstacles) {
+			if (heli.collides(o)) {
+				collide();
+				return;
+			}
+		}
 	}
 
 	private void collide() {

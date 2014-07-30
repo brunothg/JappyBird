@@ -234,4 +234,22 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 		return ret;
 	}
 
+	@Override
+	public boolean isHighscore(int score) {
+
+		try {
+			if (numberOfScores() < 10) {
+				return true;
+			}
+
+			if (getLastScores(1).get(0).getScore() < score) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
 }

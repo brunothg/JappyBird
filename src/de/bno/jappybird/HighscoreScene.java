@@ -6,6 +6,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 import de.bno.jappybird.dao.Score;
@@ -13,7 +15,7 @@ import de.bno.jappybird.engine.InternalImage;
 import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Scene;
 
-public class HighscoreScene implements Scene {
+public class HighscoreScene implements Scene, KeyListener {
 
 	private static final Color C2 = new Color(100, 100, 100, 150);
 	private static final Color C1 = new Color(170, 170, 170, 150);
@@ -108,7 +110,25 @@ public class HighscoreScene implements Scene {
 	@Override
 	public Listeners getListener() {
 
-		return new Listeners(null, null, null);
+		return new Listeners(this, null, null);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_ESCAPE:
+			JappyBird.gotoMenu();
+			break;
+		}
 	}
 
 }

@@ -51,6 +51,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	private long points;
 
 	private Heli heli;
+	private Result result;
 
 	private LinkedList<Obstacle> obstacles;
 
@@ -64,6 +65,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		this.started = false;
 		this.time = new Time();
 		this.heli = new Heli(this.time);
+		this.result = new Result(0, this);
 		this.points = 0;
 		this.obstacles = new LinkedList<Obstacle>();
 		this.rand = new Random(System.nanoTime());
@@ -92,8 +94,16 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		}
 
 		if (collision) {
-
+			paintResult(g, width, height);
 		}
+	}
+
+	private void paintResult(Graphics2D g, int width, int height) {
+
+		result.setSize((int) (width * 0.45), (int) (height * 0.45));
+		result.setPosition((int) (width * 0.5), (int) (height * 0.5));
+
+		result.paintOnScene(g);
 	}
 
 	private void paintStartString(Graphics2D g, int width, int height) {
@@ -124,7 +134,6 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	}
 
 	private void addObstacles(int width) {
-		// TODO add obstacles
 
 		if (!(obstacles.isEmpty() || obstacles.getLast().getTopLeftPosition()
 				.getX() <= (int) (width * DISTANCE_OBSTACLES))) {
@@ -286,6 +295,11 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		}
 
 		collision = true;
+		result.reset();
+		result.setPunkte((int) Time.Seconds(points));
+		result.setInput(System.getProperty("user.name", "Anonymous"));
+		result.setHighscore(JappyBird.getDAO().isHighscore(result.getPunkte()));
+
 		stop();
 	}
 
@@ -343,16 +357,25 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-
+		if (collision) {
+			result.keyTyped(e);
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
+		if (collision) {
+			result.keyPressed(e);
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+
+		if (collision) {
+			result.keyReleased(e);
+		}
+
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
 			space();

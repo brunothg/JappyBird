@@ -1,6 +1,6 @@
 package de.bno.jappybird.dao;
 
-public class Score {
+public class Score implements Comparable<Score> {
 
 	private String name;
 	private int score;
@@ -24,6 +24,12 @@ public class Score {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	@Override
+	public int compareTo(Score o) {
+
+		return new Integer(getScore()).compareTo(new Integer(o.getScore()));
 	}
 
 }

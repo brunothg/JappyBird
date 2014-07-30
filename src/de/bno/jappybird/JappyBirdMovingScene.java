@@ -33,6 +33,9 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private static final double COLLISION_BOTTOM = 0.9;
 
+	private static final double MAX_HEIGHT = 0.7;
+	private static final double MIN_HEIGHT = 0.1;
+
 	private static double JUMP_SPEED = 0.4;
 
 	private static double G = 0.9;
@@ -97,6 +100,33 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 			return;
 		}
 
+		if (Time.Seconds(points) <= 30) {
+
+			addOneObstacle();
+		} else {
+
+			addTwoObstacles();
+		}
+
+	}
+
+	private void addTwoObstacles() {
+
+		Obstacle o = new Obstacle(Obstacle.ORIENTATION_TOP);
+		Obstacle u = new Obstacle(Obstacle.ORIENTATION_BOTTOM);
+
+		double size = Math.min(
+				Math.max(rand.nextDouble() * MAX_HEIGHT, MIN_HEIGHT),
+				MAX_HEIGHT - MIN_HEIGHT);
+
+		o.setRel_size(size);
+		u.setRel_size(MAX_HEIGHT - size);
+
+		obstacles.add(o);
+		obstacles.add(u);
+	}
+
+	private void addOneObstacle() {
 		Obstacle o = new Obstacle(
 				rand.nextBoolean() ? Obstacle.ORIENTATION_BOTTOM
 						: Obstacle.ORIENTATION_TOP);

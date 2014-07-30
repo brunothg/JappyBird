@@ -13,16 +13,22 @@ public class SettingsScene implements Scene, KeyListener {
 
 	private static final double BUTTON_HEIGHT = 0.2;
 	private static final double BUTTON_WIDTH = 0.7;
+
 	private Image background;
-	private NumberButton button;
+
+	private SelectionButton fpsshow;
+	private NumberButton fps;
 
 	public SettingsScene() {
 
 		background = InternalImage.load("bg.png");
 
-		button = new NumberButton("FPS");
-		button.setNumber(30);
+		fpsshow = new SelectionButton("FPS Anzeigen");
+		fpsshow.setActive(JappyBird.showFps);
 
+		fps = new NumberButton("FPS");
+		fps.setNumber(JappyBird.gameFps);
+		fps.setSeletcted(true);
 	}
 
 	@Override
@@ -31,11 +37,54 @@ public class SettingsScene implements Scene, KeyListener {
 		g.drawImage(background, 0, 0, width, height, 0, 0,
 				background.getWidth(null), background.getHeight(null), null);
 
-		button.setSize((int) (width * BUTTON_WIDTH),
+		fpsshow.setSize((int) (width * BUTTON_WIDTH),
+				(int) (height * BUTTON_HEIGHT));
+		fps.setSize((int) (width * BUTTON_WIDTH),
 				(int) (height * BUTTON_HEIGHT));
 
-		button.setPosition((int) (width * 0.5), (int) (height * 0.5));
-		button.paintOnScene(g);
+		fps.setPosition((int) (width * 0.5), (int) (height * 0.25));
+		fpsshow.setPosition((int) (width * 0.5), (int) (height * 0.75));
+
+		fps.paintOnScene(g);
+		fpsshow.paintOnScene(g);
+	}
+
+	private void right() {
+		if (fpsshow.isSeletcted()) {
+			toogleFpsshow();
+		}
+
+		if (fps.isSeletcted()) {
+			changeFps(+1);
+		}
+	}
+
+	private void left() {
+		if (fpsshow.isSeletcted()) {
+			toogleFpsshow();
+		}
+
+		if (fps.isSeletcted()) {
+			changeFps(-1);
+		}
+	}
+
+	private void toogleFpsshow() {
+
+		fpsshow.setActive(!fpsshow.isActive());
+
+		JappyBird.showFps = fpsshow.isActive();
+	}
+
+	private void changeFps(int i) {
+
+		fps.setNumber(Math.min(Math.max(fps.getNumber() + i, 1), 60));
+
+		JappyBird.gameFps = fps.getNumber();
+	}
+
+	private void esc() {
+		JappyBird.gotoMenu();
 	}
 
 	@Override
@@ -64,11 +113,29 @@ public class SettingsScene implements Scene, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_DOWN:
+		case KeyEvent.VK_UP:
+			fps.setSeletcted(!fps.isSeletcted());
+			fpsshow.setSeletcted(!fpsshow.isSeletcted());
+			break;
+		case KeyEvent.VK_LEFT:
+			left();
+			break;
+		case KeyEvent.VK_RIGHT:
+			right();
+			break;
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_ESCAPE:
+			esc();
+			break;
+		}
 	}
 
 }

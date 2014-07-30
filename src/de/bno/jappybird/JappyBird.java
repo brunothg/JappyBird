@@ -3,6 +3,7 @@ package de.bno.jappybird;
 import javax.swing.UIManager;
 
 import de.bno.jappybird.engine.Clock;
+import de.bno.jappybird.engine.FPSScene;
 import de.bno.jappybird.engine.GameFrame;
 import de.bno.jappybird.engine.InternalImage;
 
@@ -10,6 +11,9 @@ public class JappyBird {
 
 	public static final Clock clk = new Clock(10);
 	private static final GameFrame gameFrame = new GameFrame("JappyBird");
+
+	public static int gameFps = 30;
+	public static boolean showFps = false;
 
 	public static void main(String[] args) {
 		setLaF();
@@ -44,10 +48,15 @@ public class JappyBird {
 
 	public static void gotoGame() {
 
-		clk.setFramesPerSecond(30);
+		clk.setFramesPerSecond(gameFps);
 
 		JappyBirdScene scene = new JappyBirdScene();
-		gameFrame.setScene(scene);
+
+		if (showFps) {
+			gameFrame.setScene(new FPSScene(scene));
+		} else {
+			gameFrame.setScene(scene);
+		}
 	}
 
 	public static void gotoSettings() {

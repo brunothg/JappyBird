@@ -3,6 +3,7 @@ package de.bno.jappybird;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -21,6 +22,10 @@ import de.bno.jappybird.engine.Scene;
 import de.bno.jappybird.engine.Time;
 
 public class JappyBirdMovingScene implements Scene, KeyListener {
+
+	private static final Color COLOR_START_STRING = Color.WHITE;
+
+	private static final String START_STRING = "Drücke Leertaste zum Starten";
 
 	private static final double DISTANCE_OBSTACLES = 0.7;
 
@@ -51,13 +56,18 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private Random rand;
 
-	public JappyBirdMovingScene(boolean start) {
-		this.paused = !start;
+	boolean started;
+
+	public JappyBirdMovingScene() {
+
+		this.started = false;
 		this.time = new Time();
 		this.heli = new Heli(this.time);
 		this.points = 0;
 		this.obstacles = new LinkedList<Obstacle>();
 		this.rand = new Random(System.nanoTime());
+
+		pause();
 	}
 
 	@Override
@@ -75,6 +85,23 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		paintHeli(g, width, height);
 		paintObstacles(g, width, height);
 		paintPoints(g, width, height);
+
+		if (!started) {
+			paintStartString(g, width, height);
+		}
+	}
+
+	private void paintStartString(Graphics2D g, int width, int height) {
+
+		g.setColor(COLOR_START_STRING);
+
+		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * 0.1)));
+		FontMetrics metrics = g.getFontMetrics();
+
+		g.drawString(START_STRING, (int) (width * 0.5 - metrics
+				.stringWidth(START_STRING) * 0.5),
+				(int) (height * 0.5 + (metrics.getLeading() + metrics
+						.getAscent() * 0.5) * 0.5));
 	}
 
 	private void updateObstacles(int width, int height) {
@@ -172,6 +199,8 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private void paintPoints(Graphics2D g, int width, int height) {
 
+		AffineTransform resetTransform = g.getTransform();
+
 		TextLayout text = new TextLayout("" + (int) Time.Seconds(points),
 				new Font(Font.SANS_SERIF, Font.BOLD, 30),
 				new FontRenderContext(null, true, false));
@@ -190,6 +219,8 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		g.fill(shape);
 		g.setColor(invers(g.getColor()));
 		g.draw(shape);
+
+		g.setTransform(resetTransform);
 	}
 
 	private Color invers(Color c) {
@@ -252,6 +283,16 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		stop();
 	}
 
+	private void space() {
+
+		if (!started) {
+			started = true;
+			start();
+		}
+
+		jump();
+	}
+
 	private void jump() {
 		if (paused) {
 			return;
@@ -303,7 +344,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
-			jump();
+			space();
 			break;
 		}
 	}

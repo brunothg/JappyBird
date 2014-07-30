@@ -35,14 +35,11 @@ public class JappyBirdScene implements Scene {
 
 	private JappyBirdMovingScene movingScene;
 
-	public JappyBirdScene(boolean start) {
-		paused = !start;
-		time = new Time();
-		movingScene = new JappyBirdMovingScene(start);
-	}
-
 	public JappyBirdScene() {
-		this(true);
+
+		this.paused = false;
+		time = new Time();
+		movingScene = new JappyBirdMovingScene();
 	}
 
 	private void paintNonStatic(Graphics2D g, int width, int height) {

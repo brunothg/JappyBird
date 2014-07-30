@@ -51,6 +51,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	private long points;
 
 	private Heli heli;
+	private Wall wall;
 	private Result result;
 
 	private LinkedList<Obstacle> obstacles;
@@ -65,6 +66,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		this.started = false;
 		this.time = new Time();
 		this.heli = new Heli(this.time);
+		this.wall = new Wall();
 		this.result = new Result(0, this);
 		this.points = 0;
 		this.obstacles = new LinkedList<Obstacle>();
@@ -87,6 +89,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		updateObstacles(width, height);
 		paintHeli(g, width, height);
 		paintObstacles(g, width, height);
+		paintWall(g, width, height);
 		paintPoints(g, width, height);
 
 		if (!started) {
@@ -96,6 +99,14 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		if (collision) {
 			paintResult(g, width, height);
 		}
+	}
+
+	private void paintWall(Graphics2D g, int width, int height) {
+		g.setColor(Color.BLACK);
+
+		wall.setPosition(0, (int) (height * COLLISION_BOTTOM));
+		wall.setSize(width, (int) (height * 1 - COLLISION_BOTTOM));
+		wall.paintOnScene(g);
 	}
 
 	private void paintResult(Graphics2D g, int width, int height) {

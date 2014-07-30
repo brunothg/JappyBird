@@ -23,6 +23,8 @@ import de.bno.jappybird.engine.Time;
 
 public class JappyBirdMovingScene implements Scene, KeyListener {
 
+	private static final double DISTANCE_OBSTACLES = 0.7;
+
 	private static final double SPEED_OBSTACLE = 0.1;
 
 	private static final double WIDTH_OBSTACLE = 0.08;
@@ -83,21 +85,23 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private void addAndRemoveObstacles(int width, int height) {
 
-		addObstacles();
+		addObstacles(width);
 		removeObstacles();
 	}
 
-	private void addObstacles() {
+	private void addObstacles(int width) {
 		// TODO add obstacles
 
-		if (obstacles.isEmpty()) {
-
-			Obstacle o = new Obstacle(
-					rand.nextBoolean() ? Obstacle.ORIENTATION_BOTTOM
-							: Obstacle.ORIENTATION_TOP);
-			o.setRel_size(0.5);
-			obstacles.add(o);
+		if (!(obstacles.isEmpty() || obstacles.getLast().getTopLeftPosition()
+				.getX() <= (int) (width * DISTANCE_OBSTACLES))) {
+			return;
 		}
+
+		Obstacle o = new Obstacle(
+				rand.nextBoolean() ? Obstacle.ORIENTATION_BOTTOM
+						: Obstacle.ORIENTATION_TOP);
+		o.setRel_size(0.5);
+		obstacles.add(o);
 	}
 
 	private void removeObstacles() {

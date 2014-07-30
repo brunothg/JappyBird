@@ -25,7 +25,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 	private static final Color COLOR_START_STRING = Color.WHITE;
 
-	private static final String START_STRING = "Drücke Leertaste zum Starten";
+	private static final String START_STRING = "DrÃ¼cke Leertaste zum Starten";
 
 	private static final double DISTANCE_OBSTACLES = 0.7;
 

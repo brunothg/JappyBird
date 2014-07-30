@@ -27,7 +27,7 @@ public abstract class SceneObject {
 	 * @param onScreen
 	 *            true wenn diese Methode aufgerufen wird um das SceneObject auf
 	 *            dem Bildschirm zu zeichnen. False otherwise - Zum Beispiel
-	 *            wenn sie Kollision geprüft wird.
+	 *            wenn die Kollision geprueft wird.
 	 */
 	protected abstract void paint(Graphics g, boolean onScreen);
 
@@ -199,9 +199,9 @@ public abstract class SceneObject {
 	}
 
 	/**
-	 * Überprüfe, ob die beiden SceneObjects kollidieren. Zunächst wird nach dem
-	 * BoundingBox Verfahren nach Kollision gesucht. Sollte Kollision noch nicht
-	 * ausgeschlossen sein wird genau geprüft.
+	 * Überprüfe, ob die beiden SceneObjects kollidieren. Zunächst wird nach
+	 * dem BoundingBox Verfahren nach Kollision gesucht. Sollte Kollision noch
+	 * nicht ausgeschlossen sein wird genau geprüft.
 	 * 
 	 * @param obj
 	 *            Das zweite SceneObject
@@ -222,8 +222,9 @@ public abstract class SceneObject {
 	}
 
 	/**
-	 * Überprüft genau, ob die beiden SceneObjects kollidieren. Das Ergebnis ist
-	 * nur korrekt, wenn {@link #collidesBoundingBox(SceneObject)} true liefert.
+	 * Überprüft genau, ob die beiden SceneObjects kollidieren. Das Ergebnis
+	 * ist nur korrekt, wenn {@link #collidesBoundingBox(SceneObject)} true
+	 * liefert.
 	 * 
 	 * @param obj
 	 * @param intersection

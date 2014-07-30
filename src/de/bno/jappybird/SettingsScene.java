@@ -14,13 +14,14 @@ public class SettingsScene implements Scene, KeyListener {
 	private static final double BUTTON_HEIGHT = 0.2;
 	private static final double BUTTON_WIDTH = 0.7;
 	private Image background;
-	private SelectionButton button;
+	private NumberButton button;
 
 	public SettingsScene() {
 
 		background = InternalImage.load("bg.png");
 
-		button = new SelectionButton("FPS Anzeigen");
+		button = new NumberButton("FPS");
+		button.setNumber(30);
 
 	}
 

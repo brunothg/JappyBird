@@ -31,10 +31,10 @@ public class JappyBird {
 	}
 
 	private static void setLaF() {
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-
 		}
 	}
 

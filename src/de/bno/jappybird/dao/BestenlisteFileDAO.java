@@ -40,6 +40,23 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 		return con;
 	}
 
+	public void shutdown() {
+		try {
+
+			String sql = "shutdown compact";
+
+			Statement stmt = getConnection().createStatement();
+			stmt.execute(sql);
+
+			stmt.close();
+
+			con.close();
+			con = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void setUp() {
 
 		try {

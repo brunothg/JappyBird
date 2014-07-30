@@ -2,6 +2,8 @@ package de.bno.jappybird;
 
 import javax.swing.UIManager;
 
+import de.bno.jappybird.dao.BestenlisteDAO;
+import de.bno.jappybird.dao.BestenlisteFileDAO;
 import de.bno.jappybird.engine.Clock;
 import de.bno.jappybird.engine.FPSScene;
 import de.bno.jappybird.engine.GameFrame;
@@ -73,5 +75,10 @@ public class JappyBird {
 
 		HighscoreScene scene = new HighscoreScene();
 		gameFrame.setScene(scene);
+	}
+
+	public static BestenlisteDAO getDAO() {
+
+		return new BestenlisteFileDAO();
 	}
 }

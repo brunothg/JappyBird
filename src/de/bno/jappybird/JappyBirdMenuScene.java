@@ -4,8 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +11,7 @@ import de.bno.jappybird.engine.InternalImage;
 import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Scene;
 
-public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
+public class JappyBirdMenuScene implements Scene, KeyListener {
 
 	private static final double BUTTON_WIDTH = 0.7;
 
@@ -51,7 +49,7 @@ public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
 			System.out.println("Highscore");
 			break;
 		case BTN_EINSTELLUNGEN:
-			System.out.println("Einstellungen");
+			JappyBird.gotoSettings();
 			break;
 
 		}
@@ -120,7 +118,7 @@ public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
 	@Override
 	public Listeners getListener() {
 
-		return new Listeners(this, this, null);
+		return new Listeners(this, null, null);
 	}
 
 	@Override
@@ -148,31 +146,6 @@ public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
 			enter();
 			break;
 		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
 	}
 
 }

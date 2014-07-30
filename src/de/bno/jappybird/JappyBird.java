@@ -50,4 +50,11 @@ public class JappyBird {
 		gameFrame.setScene(scene);
 	}
 
+	public static void gotoSettings() {
+
+		clk.setFramesPerSecond(10);
+
+		SettingsScene scene = new SettingsScene();
+		gameFrame.setScene(scene);
+	}
 }

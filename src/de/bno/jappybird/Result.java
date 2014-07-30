@@ -190,10 +190,15 @@ public class Result extends SceneObject implements KeyListener {
 				input = input.substring(0, input.length() - 1);
 			break;
 		default:
-			if (input.length() < 50
-					&& e.getKeyChar() != KeyEvent.CHAR_UNDEFINED)
-				input += e.getKeyChar();
+			input(e);
 			break;
+		}
+	}
+
+	private void input(KeyEvent e) {
+		if (input.length() < 50 && e.getKeyChar() != KeyEvent.CHAR_UNDEFINED
+				&& e.getKeyCode() != KeyEvent.VK_ESCAPE) {
+			input += e.getKeyChar();
 		}
 	}
 

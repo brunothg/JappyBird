@@ -12,7 +12,7 @@ public class JappyBird {
 		setLaF();
 		InternalImage.setRootFolder("/de/bno/jappybird/media/");
 
-		Clock clk = new Clock(25);
+		Clock clk = new Clock(30);
 
 		GameFrame gameFrame = new GameFrame("JappyBird");
 		gameFrame.setSize(800, 600);

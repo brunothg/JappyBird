@@ -1,7 +1,7 @@
 package de.bno.jappybird;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import de.bno.jappybird.engine.Point;
 import de.bno.jappybird.engine.SceneObject;
@@ -27,7 +27,7 @@ public class Obstacle extends SceneObject {
 	}
 
 	@Override
-	public void paint(Graphics g, boolean onScreen) {
+	public void paint(Graphics2D g, boolean onScreen) {
 
 		g.setColor(C_BORDER);
 		g.fillRect(0, 0, getWidth(), getHeight());

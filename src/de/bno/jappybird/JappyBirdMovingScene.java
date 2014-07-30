@@ -3,7 +3,6 @@ package de.bno.jappybird;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -198,7 +197,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 				255 - c.getBlue());
 	}
 
-	private void paintHeli(Graphics g, int width, int height) {
+	private void paintHeli(Graphics2D g, int width, int height) {
 		setHeliPosition(width, height);
 		heli.setSize((int) (width * 0.08), (int) (height * 0.08));
 		heli.paintOnScene(g);

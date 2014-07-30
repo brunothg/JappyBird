@@ -1,7 +1,6 @@
 package de.bno.jappybird.engine;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
@@ -29,7 +28,7 @@ public abstract class SceneObject {
 	 *            dem Bildschirm zu zeichnen. False otherwise - Zum Beispiel
 	 *            wenn die Kollision geprueft wird.
 	 */
-	protected abstract void paint(Graphics g, boolean onScreen);
+	protected abstract void paint(Graphics2D g, boolean onScreen);
 
 	/**
 	 * Paints this SceneObject with its origin
@@ -37,14 +36,15 @@ public abstract class SceneObject {
 	 * @param g
 	 *            Graphics Object for painting
 	 */
-	public void paintOnScene(Graphics g) {
+	public void paintOnScene(Graphics2D g) {
 
 		int x_topLeft = getTopLeftPosition().getX();
 		int y_topLeft = getTopLeftPosition().getY();
 		int width = getWidth();
 		int height = getHeight();
 
-		Graphics object = g.create(x_topLeft, y_topLeft, width + 1, height + 1);
+		Graphics2D object = (Graphics2D) g.create(x_topLeft, y_topLeft,
+				width + 1, height + 1);
 		paint(object, true);
 
 		if (isDrawBoundingBox()) {

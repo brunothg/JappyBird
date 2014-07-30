@@ -8,11 +8,11 @@ import de.bno.jappybird.engine.InternalImage;
 
 public class JappyBird {
 
+	public static Clock clk = new Clock(30);
+
 	public static void main(String[] args) {
 		setLaF();
 		InternalImage.setRootFolder("/de/bno/jappybird/media/");
-
-		Clock clk = new Clock(30);
 
 		GameFrame gameFrame = new GameFrame("JappyBird");
 		gameFrame.setSize(800, 600);
@@ -20,7 +20,7 @@ public class JappyBird {
 		gameFrame.setIconImage(InternalImage.load("logo.png"));
 		gameFrame.setClk(clk);
 
-		JappyBirdScene scene = new JappyBirdScene();
+		JappyBirdMenuScene scene = new JappyBirdMenuScene();
 		gameFrame.setScene(scene);
 
 		gameFrame.setVisible(true);

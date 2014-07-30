@@ -1,7 +1,7 @@
 package de.bno.jappybird;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ public class Heli extends SceneObject {
 	}
 
 	@Override
-	public void paint(Graphics g, boolean onScreen) {
+	public void paint(Graphics2D g, boolean onScreen) {
 		try {
 			Image img = getHeliImage();
 			g.drawImage(img, 0, 0, getWidth(), getHeight(), 0, 0,

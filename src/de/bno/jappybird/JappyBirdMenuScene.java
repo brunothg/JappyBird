@@ -19,8 +19,13 @@ public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
 
 	private static final double BUTTON_HEIGHT = 0.2;
 
+	private static final int BTN_START = 0;
+	private static final int BTN_EINSTELLUNGEN = 1;
+	private static final int BTN_HIGHSCORE = 2;
+
 	Image background;
 	private List<Button> buttons;
+	private int active;
 
 	public JappyBirdMenuScene() {
 
@@ -28,7 +33,33 @@ public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
 
 		buttons = new ArrayList<Button>(3);
 
-		buttons.add(new Button("Start"));
+		active = BTN_START;
+
+		buttons.add(BTN_START, new Button("Start"));
+		buttons.add(BTN_EINSTELLUNGEN, new Button("Einstellungen"));
+		buttons.add(BTN_HIGHSCORE, new Button("Highscore"));
+
+	}
+
+	private void enter() {
+
+		switch (active) {
+		case BTN_START:
+			startGame();
+			break;
+		case BTN_HIGHSCORE:
+			System.out.println("Highscore");
+			break;
+		case BTN_EINSTELLUNGEN:
+			System.out.println("Einstellungen");
+			break;
+
+		}
+	}
+
+	private void startGame() {
+
+		JappyBird.gotoGame();
 	}
 
 	@Override
@@ -45,15 +76,24 @@ public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
 		resizeButtons(width, height);
 		relocateButtons(width, height);
 
+		int index = 0;
 		for (Button b : buttons) {
+
+			b.setSeletcted(index == active);
+
 			b.paintOnScene(g);
+
+			index++;
 		}
 	}
 
 	private void relocateButtons(int width, int height) {
 
+		double y = height * 0.2;
+
 		for (Button b : buttons) {
-			b.setPosition((int) (width * 0.5), (int) (height * 0.5));
+			b.setPosition((int) (width * 0.5), (int) (y));
+			y += b.getHeight() + height * 0.1;
 		}
 	}
 
@@ -89,10 +129,25 @@ public class JappyBirdMenuScene implements Scene, KeyListener, MouseListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_DOWN:
+			active = Math.min(++active, buttons.size() - 1);
+			break;
+		case KeyEvent.VK_UP:
+			active = Math.max(--active, 0);
+			break;
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_ENTER:
+			enter();
+			break;
+		}
 	}
 
 	@Override

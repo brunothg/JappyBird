@@ -8,20 +8,19 @@ import de.bno.jappybird.engine.InternalImage;
 
 public class JappyBird {
 
-	public static Clock clk = new Clock(30);
+	public static final Clock clk = new Clock(10);
+	private static final GameFrame gameFrame = new GameFrame("JappyBird");
 
 	public static void main(String[] args) {
 		setLaF();
 		InternalImage.setRootFolder("/de/bno/jappybird/media/");
 
-		GameFrame gameFrame = new GameFrame("JappyBird");
 		gameFrame.setSize(800, 600);
 		gameFrame.setMinimumSize(gameFrame.getSize());
 		gameFrame.setIconImage(InternalImage.load("logo.png"));
 		gameFrame.setClk(clk);
 
-		JappyBirdMenuScene scene = new JappyBirdMenuScene();
-		gameFrame.setScene(scene);
+		gotoMenu();
 
 		gameFrame.setVisible(true);
 		clk.start();
@@ -33,6 +32,22 @@ public class JappyBird {
 		} catch (Exception e) {
 
 		}
+	}
+
+	public static void gotoMenu() {
+
+		clk.setFramesPerSecond(10);
+
+		JappyBirdMenuScene scene = new JappyBirdMenuScene();
+		gameFrame.setScene(scene);
+	}
+
+	public static void gotoGame() {
+
+		clk.setFramesPerSecond(30);
+
+		JappyBirdScene scene = new JappyBirdScene();
+		gameFrame.setScene(scene);
 	}
 
 }

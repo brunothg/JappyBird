@@ -23,7 +23,7 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 
 	@Override
 	public boolean isHighscore(int score) {
-		return false;
+		return true;
 	}
 
 }

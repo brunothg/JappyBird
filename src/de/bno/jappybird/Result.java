@@ -15,6 +15,12 @@ import de.bno.jappybird.engine.Time;
 
 public class Result extends SceneObject implements KeyListener {
 
+	private static final String MENU = "Menü";
+
+	private static final String NEUSTART = "Neustart";
+
+	private static final double FONT_SIZE = 0.08;
+
 	private int punkte;
 
 	private String input;
@@ -63,46 +69,67 @@ public class Result extends SceneObject implements KeyListener {
 		int height = (int) (getHeight() * 0.90);
 
 		g.setColor(Color.BLACK);
-
-		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * 0.08)));
-		FontMetrics metrics = g.getFontMetrics();
+		FontMetrics metrics;
 
 		String str = "!!! CRASH !!!";
-		g.drawString(str,
-				(int) (x + width * 0.5 - metrics.stringWidth(str) * 0.5), y
-						+ metrics.getLeading() + metrics.getAscent());
+		drawString(g, x, y, width, height, str);
+		metrics = g.getFontMetrics();
 		y += 2 * metrics.getHeight();
 
 		str = getPunkte() + " Punkt" + ((punkte != 1) ? "e" : "");
-		g.drawString(str,
-				(int) (x + width * 0.5 - metrics.stringWidth(str) * 0.5), y
-						+ metrics.getLeading() + metrics.getAscent());
+		drawString(g, x, y, width, height, str);
+		metrics = g.getFontMetrics();
 		y += metrics.getHeight();
 
 		if (highscore) {
 			str = "!--- NEW HIGHSCORE ---!";
-			g.drawString(str,
-					(int) (x + width * 0.5 - metrics.stringWidth(str) * 0.5), y
-							+ metrics.getLeading() + metrics.getAscent());
+			drawString(g, x, y, width, height, str);
+			metrics = g.getFontMetrics();
+			y += 2 * metrics.getHeight();
+
+			str = "Name: ";
+			drawString(g, x, y, width, height, str);
+			metrics = g.getFontMetrics();
 			y += metrics.getHeight();
 
-			str = "Name: "
-					+ input
+			str = input
 					+ ((stateOfBlink > (Time.NANOSECONDS_PER_SECOND * 0.5)) ? "_"
 							: "");
-			g.drawString(str,
-					(int) (x + width * 0.5 - metrics.stringWidth(str) * 0.5), y
-							+ metrics.getLeading() + metrics.getAscent());
+			drawString(g, x, y, width, height, str);
+			metrics = g.getFontMetrics();
 			y += metrics.getHeight();
+
 		}
 
+		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * FONT_SIZE)));
+		setFittingFontSize(NEUSTART + MENU + "  ", g, width, height);
+		metrics = g.getFontMetrics();
+
 		g.setColor((neustart) ? Color.RED : Color.BLACK);
-		str = "Neustart";
+		str = NEUSTART;
 		g.drawString(str, x, _y + height);
 
 		g.setColor((!neustart) ? Color.RED : Color.BLACK);
-		str = "Menü";
+		str = MENU;
 		g.drawString(str, x + width - metrics.stringWidth(str), _y + height);
+	}
+
+	private void drawString(Graphics2D g, int x, int y, int width, int height,
+			String str) {
+		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * FONT_SIZE)));
+		setFittingFontSize(str, g, width, height);
+		FontMetrics metrics = g.getFontMetrics();
+		g.drawString(str,
+				(int) (x + width * 0.5 - metrics.stringWidth(str) * 0.5), y
+						+ metrics.getLeading() + metrics.getAscent());
+	}
+
+	private void setFittingFontSize(String s, Graphics2D g, int width,
+			int height) {
+
+		while (g.getFontMetrics().stringWidth(s) > width) {
+			g.setFont(new Font(Font.SERIF, Font.BOLD, g.getFont().getSize() - 1));
+		}
 	}
 
 	private void enter() {

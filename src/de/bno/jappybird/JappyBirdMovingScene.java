@@ -186,6 +186,11 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	}
 
 	private void chkColision(int height) {
+
+		if (stopped || paused) {
+			return;
+		}
+
 		Point position = heli.getTopLeftPosition();
 
 		if (position.getY() < 0) {
@@ -210,6 +215,11 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	}
 
 	private void collide() {
+
+		if (stopped) {
+			return;
+		}
+
 		stop();
 	}
 

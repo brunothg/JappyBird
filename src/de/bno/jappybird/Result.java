@@ -101,7 +101,7 @@ public class Result extends SceneObject implements KeyListener {
 		g.drawString(str, x, _y + height);
 
 		g.setColor((!neustart) ? Color.RED : Color.BLACK);
-		str = "Menü";
+		str = "MenÃ¼";
 		g.drawString(str, x + width - metrics.stringWidth(str), _y + height);
 	}
 

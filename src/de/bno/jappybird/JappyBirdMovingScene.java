@@ -111,7 +111,11 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		g.setColor(COLOR_START_STRING);
 
 		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * 0.1)));
-		FontMetrics metrics = g.getFontMetrics();
+		FontMetrics metrics;
+
+		while ((metrics = g.getFontMetrics()).stringWidth(START_STRING) > width) {
+			g.setFont(new Font(Font.SERIF, Font.BOLD, g.getFont().getSize() - 1));
+		}
 
 		g.drawString(START_STRING, (int) (width * 0.5 - metrics
 				.stringWidth(START_STRING) * 0.5),

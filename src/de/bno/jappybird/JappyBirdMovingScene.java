@@ -57,6 +57,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	private Random rand;
 
 	boolean started;
+	boolean collision;
 
 	public JappyBirdMovingScene() {
 
@@ -88,6 +89,10 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 		if (!started) {
 			paintStartString(g, width, height);
+		}
+
+		if (collision) {
+
 		}
 	}
 
@@ -280,6 +285,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 			return;
 		}
 
+		collision = true;
 		stop();
 	}
 
@@ -325,9 +331,14 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 			points = 0;
 			stopped = false;
 			obstacles.clear();
+			started = false;
+			collision = false;
+
+			pause();
 		}
 
 		time.reset();
+
 	}
 
 	@Override

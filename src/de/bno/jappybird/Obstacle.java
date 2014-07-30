@@ -33,8 +33,8 @@ public class Obstacle extends SceneObject {
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		int getHeight = (getOrientation() == ORIENTATION_TOP) ? getHeight()
-				- (int) (getHeight() * 0.01) : getHeight();
-		int y = (getOrientation() == ORIENTATION_BOTTOM) ? (int) (getHeight() * 0.01)
+				- (int) (getWidth() * 0.04) : getHeight();
+		int y = (getOrientation() == ORIENTATION_BOTTOM) ? (int) (getWidth() * 0.04)
 				: 0;
 
 		int getWidth = getWidth() - (int) (getWidth() * 0.04);

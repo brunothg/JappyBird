@@ -65,11 +65,19 @@ public class HighscoreScene implements Scene, KeyListener {
 		_width = (int) (width * 0.72);
 
 		g.setColor(Color.BLACK);
-		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (_height * 0.8)));
-		FontMetrics metrics = g.getFontMetrics();
 
 		int index = 0;
 		for (Score s : scores) {
+
+			g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (_height * 0.8)));
+
+			while (g.getFontMetrics().stringWidth(
+					s.getName() + "  " + s.getScore()) > _width) {
+				g.setFont(new Font(Font.SERIF, Font.BOLD,
+						g.getFont().getSize() - 1));
+			}
+
+			FontMetrics metrics = g.getFontMetrics();
 
 			g.drawString(
 					s.getName(),

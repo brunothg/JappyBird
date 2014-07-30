@@ -21,10 +21,12 @@ public class HighscoreScene implements Scene, KeyListener {
 	private static final Color C1 = new Color(170, 170, 170, 150);
 
 	private Image background;
+	private List<Score> scores;
 
 	public HighscoreScene() {
 
 		background = InternalImage.load("bg.png");
+		scores = JappyBird.getDAO().getBestenliste();
 	}
 
 	@Override
@@ -40,8 +42,6 @@ public class HighscoreScene implements Scene, KeyListener {
 
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-
-		List<Score> scores = JappyBird.getDAO().getBestenliste();
 
 		g.setColor(new Color(0, 0, 0, 150));
 		g.fillRect((int) (width * 0.1), (int) (height * 0.1),

@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 /**
  * Klasse um Bilddateien aus dem Jar zu laden. Einmal geladene Bilder werden Im
- * Speicher gehalten um für spätere Zugriffe direkt verfügbar zu sein.
+ * Speicher gehalten um fuer spaetere Zugriffe direkt verfuegbar zu sein.
  * 
  * @author Marvin Bruns
  *
@@ -76,7 +76,7 @@ public class InternalImage {
 
 		root = s;
 
-		if (!root.isEmpty() && root.endsWith("/")) {
+		if (!root.isEmpty() && !root.endsWith("/")) {
 			root += "/";
 		}
 	}

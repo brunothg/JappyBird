@@ -46,7 +46,7 @@ public class JappyBirdMenuScene implements Scene, KeyListener {
 			startGame();
 			break;
 		case BTN_HIGHSCORE:
-			System.out.println("Highscore");
+			JappyBird.gotoHighscore();
 			break;
 		case BTN_EINSTELLUNGEN:
 			JappyBird.gotoSettings();

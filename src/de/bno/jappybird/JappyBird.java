@@ -66,4 +66,12 @@ public class JappyBird {
 		SettingsScene scene = new SettingsScene();
 		gameFrame.setScene(scene);
 	}
+
+	public static void gotoHighscore() {
+
+		clk.setFramesPerSecond(10);
+
+		HighscoreScene scene = new HighscoreScene();
+		gameFrame.setScene(scene);
+	}
 }

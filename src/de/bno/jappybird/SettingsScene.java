@@ -11,11 +11,17 @@ import de.bno.jappybird.engine.Scene;
 
 public class SettingsScene implements Scene, KeyListener {
 
+	private static final double BUTTON_HEIGHT = 0.2;
+	private static final double BUTTON_WIDTH = 0.7;
 	private Image background;
+	private SelectionButton button;
 
 	public SettingsScene() {
 
 		background = InternalImage.load("bg.png");
+
+		button = new SelectionButton("FPS Anzeigen");
+
 	}
 
 	@Override
@@ -23,6 +29,12 @@ public class SettingsScene implements Scene, KeyListener {
 
 		g.drawImage(background, 0, 0, width, height, 0, 0,
 				background.getWidth(null), background.getHeight(null), null);
+
+		button.setSize((int) (width * BUTTON_WIDTH),
+				(int) (height * BUTTON_HEIGHT));
+
+		button.setPosition((int) (width * 0.5), (int) (height * 0.5));
+		button.paintOnScene(g);
 	}
 
 	@Override

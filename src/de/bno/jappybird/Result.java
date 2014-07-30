@@ -64,7 +64,7 @@ public class Result extends SceneObject implements KeyListener {
 
 		g.setColor(Color.BLACK);
 
-		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * 0.1)));
+		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * 0.08)));
 		FontMetrics metrics = g.getFontMetrics();
 
 		String str = "!!! CRASH !!!";

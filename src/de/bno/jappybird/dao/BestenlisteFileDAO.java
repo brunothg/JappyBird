@@ -39,7 +39,7 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 			e.printStackTrace();
 		}
 
-		Collections.sort(ret);
+		Collections.sort(ret, Collections.reverseOrder());
 
 		scores = ret;
 		return ret;
@@ -112,7 +112,7 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 		}
 
 		list.add(score);
-		Collections.sort(list);
+		Collections.sort(list, Collections.reverseOrder());
 
 		list = list.subList(0, Math.min(list.size(), 10));
 

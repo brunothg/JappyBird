@@ -48,9 +48,13 @@ public class SelectionButton extends SceneObject {
 		g.setColor(FG);
 
 		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (getHeight() * 0.5)));
-		FontMetrics metrics = g.getFontMetrics();
+		FontMetrics metrics;
 
 		int widtht = (int) (getWidth() * 0.7);
+
+		while ((metrics = g.getFontMetrics()).stringWidth(text) > widtht * 0.98) {
+			g.setFont(new Font(Font.SERIF, Font.BOLD, g.getFont().getSize() - 1));
+		}
 
 		g.drawString(
 				text,

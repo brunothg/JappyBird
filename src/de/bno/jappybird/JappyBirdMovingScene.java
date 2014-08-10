@@ -48,6 +48,8 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 	private boolean stopped;
 	private Time time;
 
+	private boolean spaceStatus;
+
 	private long points;
 
 	private Heli heli;
@@ -382,6 +384,12 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		if (collision) {
 			result.keyPressed(e);
 		}
+
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_SPACE:
+			spaceStatus = true;
+			break;
+		}
 	}
 
 	@Override
@@ -393,7 +401,10 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
-			space();
+			if (spaceStatus) {
+				spaceStatus = false;
+				space();
+			}
 			break;
 		}
 	}

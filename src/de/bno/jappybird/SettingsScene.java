@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import de.bno.jappybird.engine.InternalImage;
 import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Scene;
+import de.bno.jappybird.settings.Settings;
 
 public class SettingsScene implements Scene, KeyListener {
 
@@ -24,10 +25,11 @@ public class SettingsScene implements Scene, KeyListener {
 		background = InternalImage.load("bg.png");
 
 		fpsshow = new SelectionButton("FPS Anzeigen");
-		fpsshow.setActive(JappyBird.showFps);
+		fpsshow.setActive(Settings.getBooleanValue(JappyBird.SCENE_SHOW_FPS,
+				false));
 
 		fps = new NumberButton("FPS");
-		fps.setNumber(JappyBird.gameFps);
+		fps.setNumber((int) Settings.getLongValue(JappyBird.SCENE_FPS, 30));
 		fps.setSeletcted(true);
 	}
 
@@ -73,14 +75,14 @@ public class SettingsScene implements Scene, KeyListener {
 
 		fpsshow.setActive(!fpsshow.isActive());
 
-		JappyBird.showFps = fpsshow.isActive();
+		Settings.set(JappyBird.SCENE_SHOW_FPS, "" + fpsshow.isActive());
 	}
 
 	private void changeFps(int i) {
 
 		fps.setNumber(Math.min(Math.max(fps.getNumber() + i, 1), 60));
 
-		JappyBird.gameFps = fps.getNumber();
+		Settings.set(JappyBird.SCENE_FPS, "" + fps.getNumber());
 	}
 
 	private void esc() {

@@ -3,6 +3,8 @@ package de.bno.jappybird.dao;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,10 +13,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.bno.stream.autokey.AutoKey;
+import de.bno.stream.manipulate.ManipulatorInputStream;
+import de.bno.stream.manipulate.ManipulatorOutputStream;
+
 public class BestenlisteFileDAO implements BestenlisteDAO {
 
-	private static final Path db = Paths.get("./data/highscore.db");
-	private List<Score> scores;
+	private static final Path db = Paths.get("./data/highscore.ak");
+	private static List<Score> scores;
 
 	public BestenlisteFileDAO() {
 	}
@@ -42,6 +48,7 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 		Collections.sort(ret, Collections.reverseOrder());
 
 		scores = ret;
+
 		return ret;
 	}
 
@@ -51,8 +58,11 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 			return;
 		}
 
-		BufferedReader in = Files.newBufferedReader(db,
-				Charset.forName("UTF-8"));
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				new ManipulatorInputStream(Files.newInputStream(db),
+						new AutoKey(this.getClass().getSimpleName(),
+								AutoKey.MODUS_ENCODE)),
+				Charset.forName("UTF-8")));
 
 		String line = null;
 
@@ -73,7 +83,8 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 		in.close();
 	}
 
-	private void writeFromList(List<Score> list) throws IOException {
+	private static synchronized void writeFromList(List<Score> list)
+			throws IOException {
 
 		if (!Files.exists(db)) {
 
@@ -87,8 +98,11 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 
 		scores = list;
 
-		BufferedWriter out = Files.newBufferedWriter(db,
-				Charset.forName("UTF-8"));
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+				new ManipulatorOutputStream(Files.newOutputStream(db),
+						new AutoKey(BestenlisteFileDAO.class.getSimpleName(),
+								AutoKey.MODUS_DECODE)),
+				Charset.forName("UTF-8")));
 
 		for (Score s : list) {
 
@@ -116,11 +130,7 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 
 		list = list.subList(0, Math.min(list.size(), 10));
 
-		try {
-			writeFromList(list);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		scores = list;
 
 		return true;
 	}
@@ -140,4 +150,23 @@ public class BestenlisteFileDAO implements BestenlisteDAO {
 		return false;
 	}
 
+	static {
+		registerShutdownHook();
+	}
+
+	private static void registerShutdownHook() {
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+
+			public void run() {
+
+				try {
+					writeFromList(scores);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
 }

@@ -20,6 +20,7 @@ import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Point;
 import de.bno.jappybird.engine.Scene;
 import de.bno.jappybird.engine.Time;
+import de.bno.jappybird.settings.Settings;
 
 public class JappyBirdMovingScene implements Scene, KeyListener {
 
@@ -314,7 +315,8 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		collision = true;
 		result.reset();
 		result.setPunkte((int) Time.Seconds(points));
-		result.setInput(System.getProperty("user.name", "Anonymous"));
+		result.setInput(Settings.getValue("username",
+				System.getProperty("user.name", "Anonymous")));
 		result.setHighscore(JappyBird.getDAO().isHighscore(result.getPunkte()));
 
 		stop();

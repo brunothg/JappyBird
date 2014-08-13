@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.bno.jappybird.strings.Strings.*;
 import de.bno.jappybird.engine.InternalImage;
 import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Scene;
@@ -33,9 +34,9 @@ public class JappyBirdMenuScene implements Scene, KeyListener {
 
 		active = BTN_START;
 
-		buttons.add(BTN_START, new Button("Start"));
-		buttons.add(BTN_EINSTELLUNGEN, new Button("Einstellungen"));
-		buttons.add(BTN_HIGHSCORE, new Button("Highscore"));
+		buttons.add(BTN_START, new Button(MENU_START));
+		buttons.add(BTN_EINSTELLUNGEN, new Button(MENU_SETTINGS));
+		buttons.add(BTN_HIGHSCORE, new Button(MENU_HIGHSCORE));
 
 	}
 

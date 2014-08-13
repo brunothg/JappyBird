@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static de.bno.jappybird.strings.Strings.*;
 import de.bno.jappybird.engine.InternalImage;
 import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Scene;
@@ -24,11 +25,11 @@ public class SettingsScene implements Scene, KeyListener {
 
 		background = InternalImage.load("bg.png");
 
-		fpsshow = new SelectionButton("FPS Anzeigen");
+		fpsshow = new SelectionButton(SETTINGS_SHOW_FPS);
 		fpsshow.setActive(Settings.getBooleanValue(JappyBird.SCENE_SHOW_FPS,
 				false));
 
-		fps = new NumberButton("FPS");
+		fps = new NumberButton(SETTINGS_FPS);
 		fps.setNumber((int) Settings.getLongValue(JappyBird.SCENE_FPS, 30));
 		fps.setSeletcted(true);
 	}

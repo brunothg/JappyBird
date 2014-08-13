@@ -7,17 +7,15 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static de.bno.jappybird.strings.Strings.*;
 import de.bno.jappybird.dao.Score;
 import de.bno.jappybird.engine.Point;
 import de.bno.jappybird.engine.Scene;
 import de.bno.jappybird.engine.SceneObject;
 import de.bno.jappybird.engine.Time;
+import de.bno.jappybird.settings.Settings;
 
 public class Result extends SceneObject implements KeyListener {
-
-	private static final String MENU = "Menü";
-
-	private static final String NEUSTART = "Neustart";
 
 	private static final double FONT_SIZE = 0.08;
 
@@ -71,23 +69,25 @@ public class Result extends SceneObject implements KeyListener {
 		g.setColor(Color.BLACK);
 		FontMetrics metrics;
 
-		String str = "!!! CRASH !!!";
+		String str = RESULT_CRASH;
 		drawString(g, x, y, width, height, str);
 		metrics = g.getFontMetrics();
 		y += 2 * metrics.getHeight();
 
-		str = getPunkte() + " Punkt" + ((punkte != 1) ? "e" : "");
+		str = String.format("%d %s", getPunkte(),
+				(getPunkte() != 1) ? RESULT_POINTS_PLURAL
+						: RESULT_POINTS_SINGLE);
 		drawString(g, x, y, width, height, str);
 		metrics = g.getFontMetrics();
 		y += metrics.getHeight();
 
 		if (highscore) {
-			str = "!--- NEW HIGHSCORE ---!";
+			str = RESULT_HIGHSCORE;
 			drawString(g, x, y, width, height, str);
 			metrics = g.getFontMetrics();
 			y += 2 * metrics.getHeight();
 
-			str = "Name: ";
+			str = RESULT_NAME;
 			drawString(g, x, y, width, height, str);
 			metrics = g.getFontMetrics();
 			y += metrics.getHeight();
@@ -102,15 +102,16 @@ public class Result extends SceneObject implements KeyListener {
 		}
 
 		g.setFont(new Font(Font.SERIF, Font.BOLD, (int) (height * FONT_SIZE)));
-		setFittingFontSize(NEUSTART + MENU + "  ", g, width, height);
+		setFittingFontSize(RESULT_RESTART + RESULT_MENU + "  ", g, width,
+				height);
 		metrics = g.getFontMetrics();
 
 		g.setColor((neustart) ? Color.RED : Color.BLACK);
-		str = NEUSTART;
+		str = RESULT_RESTART;
 		g.drawString(str, x, _y + height);
 
 		g.setColor((!neustart) ? Color.RED : Color.BLACK);
-		str = MENU;
+		str = RESULT_MENU;
 		g.drawString(str, x + width - metrics.stringWidth(str), _y + height);
 	}
 
@@ -135,6 +136,7 @@ public class Result extends SceneObject implements KeyListener {
 	private void enter() {
 
 		if (highscore) {
+			Settings.set("username", getInput());
 			JappyBird.getDAO().insertScore(new Score(getInput(), getPunkte()));
 		}
 
@@ -203,7 +205,7 @@ public class Result extends SceneObject implements KeyListener {
 	}
 
 	public String getInput() {
-		return input;
+		return input.trim();
 	}
 
 	public void setInput(String input) {

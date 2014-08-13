@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.swing.UIManager;
 
+import static de.bno.jappybird.strings.Strings.*;
 import de.bno.jappybird.dao.BestenlisteDAO;
 import de.bno.jappybird.dao.BestenlisteFileDAO;
 import de.bno.jappybird.engine.Clock;
@@ -20,7 +21,7 @@ public class JappyBird {
 	private static final float MENU_FPS = (float) Settings.getDoubleValue(
 			"CLOCK-MENU-FPS", 10);
 	public static final Clock clk = new Clock(MENU_FPS);
-	private static final GameFrame gameFrame = new GameFrame("JappyBird");
+	private static final GameFrame gameFrame = new GameFrame(GAME_FRAME_TITLE);
 
 	public static void main(String[] args) {
 		setLaF();

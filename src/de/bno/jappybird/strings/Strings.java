@@ -18,5 +18,6 @@ public class Strings {
 	public static final String RESULT_NAME = "Name: ";
 	public static final String RESULT_RESTART = "Neustart";
 	public static final String RESULT_MENU = "Menü";
+	public static final String RESULT_DEFAULT_NAME = "Unbekannt";
 
 }

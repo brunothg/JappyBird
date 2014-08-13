@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import static de.bno.jappybird.strings.Strings.*;
 import de.bno.jappybird.engine.Listeners;
 import de.bno.jappybird.engine.Point;
 import de.bno.jappybird.engine.Scene;
@@ -316,7 +317,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		result.reset();
 		result.setPunkte((int) Time.Seconds(points));
 		result.setInput(Settings.getValue("username",
-				System.getProperty("user.name", "Anonymous")));
+				System.getProperty("user.name", RESULT_DEFAULT_NAME)));
 		result.setHighscore(JappyBird.getDAO().isHighscore(result.getPunkte()));
 
 		stop();

@@ -20,7 +20,7 @@ public class JappyBird {
 
 	private static final float MENU_FPS = (float) Settings.getDoubleValue(
 			"CLOCK-MENU-FPS", 10);
-	public static final Clock clk = new Clock(MENU_FPS);
+	private static final Clock clk = new Clock(MENU_FPS);
 	private static final GameFrame gameFrame = new GameFrame(GAME_FRAME_TITLE);
 
 	public static void main(String[] args) {

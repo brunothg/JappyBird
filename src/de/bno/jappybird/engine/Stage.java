@@ -23,6 +23,7 @@ public class Stage extends JPanel {
 		setBackground(Color.BLACK);
 		setFocusable(true);
 		setRequestFocusEnabled(true);
+		setIgnoreRepaint(false);
 	}
 
 	/**

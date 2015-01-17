@@ -3,33 +3,58 @@ package de.bno.jappybird.engine;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.EventListener;
+import java.util.LinkedList;
 
-public class Listeners {
+public class Listeners extends LinkedList<EventListener> {
 
-	private KeyListener kl;
-	private MouseListener ml;
-	private MouseMotionListener mml;
+	private static final long serialVersionUID = 1L;
 
-	public Listeners(KeyListener kl, MouseListener ml, MouseMotionListener mml) {
-		this.kl = kl;
-		this.ml = ml;
-		this.mml = mml;
+	public Listeners(EventListener... listeners) {
+
+		this();
+
+		for (EventListener evtl : listeners) {
+			add(evtl);
+		}
 	}
 
 	public Listeners() {
-		this(null, null, null);
+
+		super();
+	}
+
+	public EventListener getListener(Class<? extends EventListener> type) {
+
+		return getListener(type, this);
+	}
+
+	public static <T extends EventListener> T getListener(Class<T> type,
+			Listeners ls) {
+
+		for (Object o : ls) {
+			if (type.isInstance(o)) {
+
+				return type.cast(o);
+			}
+		}
+
+		return null;
 	}
 
 	public KeyListener getKeyListener() {
-		return kl;
+
+		return getListener(KeyListener.class, this);
 	}
 
 	public MouseListener getMouseListener() {
-		return ml;
+
+		return getListener(MouseListener.class, this);
 	}
 
 	public MouseMotionListener getMouseMotionListener() {
-		return mml;
+
+		return getListener(MouseMotionListener.class, this);
 	}
 
 }

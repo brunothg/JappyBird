@@ -1,29 +1,33 @@
 package de.bno.jappybird;
 
+import static de.bno.jappybird.strings.Strings.GAME_FRAME_TITLE;
+
 import java.io.IOException;
 
 import javax.swing.UIManager;
 
-import static de.bno.jappybird.strings.Strings.*;
 import de.bno.jappybird.dao.BestenlisteDAO;
 import de.bno.jappybird.dao.BestenlisteFileDAO;
+import de.bno.jappybird.dao.BestenlisteRewardsDAO;
 import de.bno.jappybird.engine.Clock;
 import de.bno.jappybird.engine.FPSScene;
 import de.bno.jappybird.engine.GameFrame;
 import de.bno.jappybird.engine.InternalImage;
+import de.bno.jappybird.settings.HSettings;
 import de.bno.jappybird.settings.Settings;
 
-public class JappyBird {
+public class JappyBird
+{
 
 	public static final String SCENE_FPS = "SCENE-FPS";
 	public static final String SCENE_SHOW_FPS = "SCENE-SHOW-FPS";
 
-	private static final float MENU_FPS = (float) Settings.getDoubleValue(
-			"CLOCK-MENU-FPS", 10);
+	private static final float MENU_FPS = (float) Settings.getDoubleValue("CLOCK-MENU-FPS", 10);
 	private static final Clock clk = new Clock(MENU_FPS);
 	private static final GameFrame gameFrame = new GameFrame(GAME_FRAME_TITLE);
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		setLaF();
 		registerShutdownHook();
 
@@ -40,15 +44,21 @@ public class JappyBird {
 		clk.start();
 	}
 
-	private static void registerShutdownHook() {
+	private static void registerShutdownHook()
+	{
 
-		Runtime.getRuntime().addShutdownHook(new Thread() {
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
 
-			public void run() {
+			public void run()
+			{
 
-				try {
+				try
+				{
 					Settings.save();
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -56,15 +66,20 @@ public class JappyBird {
 
 	}
 
-	private static void setLaF() {
+	private static void setLaF()
+	{
 
-		try {
+		try
+		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 		}
 	}
 
-	public static void gotoMenu() {
+	public static void gotoMenu()
+	{
 
 		clk.setFramesPerSecond(MENU_FPS);
 
@@ -72,21 +87,25 @@ public class JappyBird {
 		gameFrame.setScene(scene);
 	}
 
-	public static void gotoGame() {
+	public static void gotoGame()
+	{
 
-		clk.setFramesPerSecond((int) Settings.getLongValue(JappyBird.SCENE_FPS,
-				30));
+		clk.setFramesPerSecond((int) Settings.getLongValue(JappyBird.SCENE_FPS, 30));
 
 		JappyBirdScene scene = new JappyBirdScene();
 
-		if (Settings.getBooleanValue(SCENE_SHOW_FPS, false)) {
+		if (Settings.getBooleanValue(SCENE_SHOW_FPS, false))
+		{
 			gameFrame.setScene(new FPSScene(scene));
-		} else {
+		}
+		else
+		{
 			gameFrame.setScene(scene);
 		}
 	}
 
-	public static void gotoSettings() {
+	public static void gotoSettings()
+	{
 
 		clk.setFramesPerSecond(MENU_FPS);
 
@@ -94,7 +113,8 @@ public class JappyBird {
 		gameFrame.setScene(scene);
 	}
 
-	public static void gotoHighscore() {
+	public static void gotoHighscore()
+	{
 
 		clk.setFramesPerSecond(MENU_FPS);
 
@@ -102,8 +122,16 @@ public class JappyBird {
 		gameFrame.setScene(scene);
 	}
 
-	public static BestenlisteDAO getDAO() {
+	public static BestenlisteDAO getDAO()
+	{
 
-		return new BestenlisteFileDAO();
+		if (HSettings.getBoolean(HSettings.KEY_REWARDS_HIGHSCORE, true))
+		{
+			return new BestenlisteRewardsDAO();
+		}
+		else
+		{
+			return new BestenlisteFileDAO();
+		}
 	}
 }

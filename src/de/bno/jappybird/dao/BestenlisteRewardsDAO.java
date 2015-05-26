@@ -36,8 +36,7 @@ public class BestenlisteRewardsDAO implements BestenlisteDAO
 					break;
 				}
 
-				highscore.add(new Score(person.getPerson().getName(), person.getPoints()
-					* HSettings.getInt(HSettings.KEY_REWARD_MULTIPLIER, 1)));
+				highscore.add(new Score(person.getPerson().getName(), person.getPoints()));
 
 				count++;
 			}
@@ -67,16 +66,26 @@ public class BestenlisteRewardsDAO implements BestenlisteDAO
 			accessClient.initConnectionToServer();
 
 			List<GamePerson> first10Scores = accessClient.getFirst10GamePersonsForGame(gameName);
-			GamePerson lastScore = first10Scores.get(Math.min(first10Scores.size() - 1, 9));
-			Integer lastPoints = lastScore.getPoints();
 
-			if (first10Scores.size() < 10 || score.getScore() > lastPoints)
+			if (first10Scores == null || first10Scores.size() <= 0)
+			{
+				isInHighscore = true;
+
+			}
+			else
 			{
 
-				isInHighscore = true;
+				GamePerson lastScore = first10Scores.get(Math.min(first10Scores.size() - 1, 9));
+				Integer lastPoints = lastScore.getPoints();
+				if (first10Scores.size() < 10 || score.getScore() > lastPoints)
+				{
+
+					isInHighscore = true;
+				}
 			}
 
-			accessClient.persistConfigurationPointsForPerson(score.getName(), gameName, score.getScore());
+			accessClient.persistConfigurationPointsForPerson(score.getName(), gameName,
+				score.getScore() * HSettings.getInt(HSettings.KEY_REWARD_MULTIPLIER, 1));
 		}
 		catch (Exception e)
 		{

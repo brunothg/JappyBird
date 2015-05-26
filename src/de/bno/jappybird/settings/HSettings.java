@@ -9,8 +9,9 @@ public class HSettings
 
 	public static final String KEY_INSTALL_SECURITY_MANAGER = "install_security_manager";
 	public static final String KEY_REWARD_SERVER_ADDRESS = "rewad_server_address";
-	public static final String KEY_REWARD_MULTIPLIER = "SERVER_ADDRES";
+	public static final String KEY_REWARD_MULTIPLIER = "reward_multiplier";
 	public static final String KEY_GAME_NAME = "game_name";
+	public static final String KEY_REWARDS_HIGHSCORE = "rewards_highscore";
 
 	public static final Properties props = new Properties(System.getProperties());
 

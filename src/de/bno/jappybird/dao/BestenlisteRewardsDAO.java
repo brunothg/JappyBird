@@ -36,7 +36,8 @@ public class BestenlisteRewardsDAO implements BestenlisteDAO
 					break;
 				}
 
-				highscore.add(new Score(person.getPerson().getName(), person.getPoints()));
+				highscore.add(new Score(person.getPerson().getName(), person.getPoints()
+					* HSettings.getInt(HSettings.KEY_REWARD_MULTIPLIER, 1)));
 
 				count++;
 			}

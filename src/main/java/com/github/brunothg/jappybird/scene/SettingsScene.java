@@ -8,6 +8,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.EventListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.brunothg.game.engine.d2.scene.Scene;
 import com.github.brunothg.game.engine.image.InternalImage;
 import com.github.brunothg.jappybird.JappyBird;
@@ -16,6 +19,8 @@ import com.github.brunothg.jappybird.object.SelectionButton;
 import com.github.brunothg.jappybird.settings.Settings;
 
 public class SettingsScene implements Scene, KeyListener {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SettingsScene.class);
 
 	private static final double BUTTON_HEIGHT = 0.2;
 	private static final double BUTTON_WIDTH = 0.7;
@@ -77,17 +82,21 @@ public class SettingsScene implements Scene, KeyListener {
 	}
 
 	private void toogleFpsshow() {
+		boolean activeOverlay = !fpsshow.isActive();
+		LOG.info("toogle fps overlay -> {}", activeOverlay);
 
-		fpsshow.setActive(!fpsshow.isActive());
+		fpsshow.setActive(activeOverlay);
 
-		Settings.set(JappyBird.SCENE_SHOW_FPS, "" + fpsshow.isActive());
+		Settings.set(JappyBird.SCENE_SHOW_FPS, "" + activeOverlay);
 	}
 
 	private void changeFps(int i) {
+		int newFps = Math.min(Math.max(fps.getNumber() + i, 1), 60);
+		LOG.info("set fps -> {}", newFps);
 
-		fps.setNumber(Math.min(Math.max(fps.getNumber() + i, 1), 60));
+		fps.setNumber(newFps);
 
-		Settings.set(JappyBird.SCENE_FPS, "" + fps.getNumber());
+		Settings.set(JappyBird.SCENE_FPS, "" + newFps);
 	}
 
 	private void esc() {

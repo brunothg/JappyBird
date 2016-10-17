@@ -22,6 +22,7 @@ import java.util.Random;
 
 import com.github.brunothg.game.engine.d2.commons.Point;
 import com.github.brunothg.game.engine.time.TimeUtils;
+import com.github.brunothg.game.engine.time.Timer;
 import com.github.brunothg.jappybird.JappyBird;
 import com.github.brunothg.jappybird.object.Heli;
 import com.github.brunothg.jappybird.object.Obstacle;
@@ -50,6 +51,7 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 
 	private static double G = 0.9;
 
+	private Timer timer;
 	private boolean paused;
 	private boolean stopped;
 
@@ -71,6 +73,7 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 	public JappyBirdMovingScene() {
 
 		this.started = false;
+		this.timer = new Timer();
 		this.heli = new Heli();
 		this.wall = new Wall();
 		this.result = new Result(0, this);
@@ -88,10 +91,11 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (!paused) {
-			points += elapsed;
+			timer.update();
+			points += timer.elapsedTime();
 		}
 
-		updateObstacles(width, height, elapsed);
+		updateObstacles(width, height);
 		paintHeli(g, width, height, elapsed);
 		paintObstacles(g, width, height, elapsed);
 		paintWall(g, width, height, elapsed);
@@ -143,9 +147,9 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 								* 0.5));
 	}
 
-	private void updateObstacles(int width, int height, long elapsed) {
+	private void updateObstacles(int width, int height) {
 
-		moveObstacles(width, height, elapsed);
+		moveObstacles(width, height);
 		resizeObstacles(width, height);
 		addAndRemoveObstacles(width, height);
 
@@ -216,11 +220,12 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 		}
 	}
 
-	private void moveObstacles(int width, int height, long elapsed) {
+	private void moveObstacles(int width, int height) {
 
 		for (Obstacle o : obstacles) {
-			o.setRelPosition(o.getRelPosition()
-					- (TimeUtils.Seconds(elapsed) * SPEED_OBSTACLE));
+			o.setRelPosition(
+					o.getRelPosition() - (TimeUtils.Seconds(timer.elapsedTime())
+							* SPEED_OBSTACLE));
 			o.setPosition((int) (width * o.getRelPosition()),
 					(o.getOrientation() == Obstacle.ORIENTATION_TOP) ? 0
 							: (int) (height * COLLISION_BOTTOM));
@@ -267,13 +272,13 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 	}
 
 	private void paintHeli(Graphics2D g, int width, int height, long elapsed) {
-		setHeliPosition(width, height, elapsed);
+		setHeliPosition(width, height);
 		heli.setSize((int) (width * 0.08), (int) (height * 0.08));
 		heli.paintOnScene(g, elapsed);
 	}
 
-	private void setHeliPosition(int width, int height, long elapsed) {
-		double seconds = TimeUtils.Seconds(elapsed);
+	private void setHeliPosition(int width, int height) {
+		double seconds = TimeUtils.Seconds(timer.elapsedTime());
 
 		heli.setSpeed(heli.getSpeed() + (G * seconds));
 		heli.setAusrueckung(
@@ -350,6 +355,7 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 	@Override
 	public void pause() {
 		paused = true;
+		timer.reset();
 	}
 
 	@Override
@@ -357,6 +363,7 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 		paused = true;
 		stopped = true;
 
+		timer.reset();
 		heli.setSpeed(0);
 	}
 
@@ -375,6 +382,7 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 			pause();
 		}
 
+		timer.reset();
 	}
 
 	@Override

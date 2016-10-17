@@ -7,3 +7,9 @@
 hs_err_pid*
 /bin/
 /data/
+/target/
+
+# eclipse
+/.settings/
+/.project
+/.classpath

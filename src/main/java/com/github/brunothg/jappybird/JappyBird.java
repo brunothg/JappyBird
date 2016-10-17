@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import javax.swing.UIManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.brunothg.game.engine.d2.frame.SwingGameFrame;
 import com.github.brunothg.game.engine.d2.scene.FPSScene;
 import com.github.brunothg.game.engine.image.InternalImage;
@@ -18,6 +21,7 @@ import com.github.brunothg.jappybird.scene.SettingsScene;
 import com.github.brunothg.jappybird.settings.Settings;
 
 public class JappyBird {
+	private static final Logger LOG = LoggerFactory.getLogger(JappyBird.class);
 
 	public static final String SCENE_FPS = "SCENE-FPS";
 	public static final String SCENE_SHOW_FPS = "SCENE-SHOW-FPS";
@@ -44,15 +48,17 @@ public class JappyBird {
 	}
 
 	private static void registerShutdownHook() {
-
+		LOG.debug("register shutdown hook");
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 
 			public void run() {
 
 				try {
+					LOG.info("Save settings ...");
 					Settings.save();
+					LOG.info("... saved.");
 				} catch (IOException e) {
-					e.printStackTrace();
+					LOG.warn("Saving settings failed", e);
 				}
 			}
 		});
@@ -60,14 +66,17 @@ public class JappyBird {
 	}
 
 	private static void setLaF() {
+		LOG.debug("Set look and feel");
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
+			LOG.warn("Could not set LaF", e);
 		}
 	}
 
 	public static void gotoMenu() {
+		LOG.info("go to menu");
 
 		gameFrame.setFramesPerSecond(MENU_FPS);
 
@@ -76,6 +85,7 @@ public class JappyBird {
 	}
 
 	public static void gotoGame() {
+		LOG.info("go to game");
 
 		gameFrame.setFramesPerSecond(
 				(int) Settings.getLongValue(JappyBird.SCENE_FPS, 30));
@@ -90,6 +100,7 @@ public class JappyBird {
 	}
 
 	public static void gotoSettings() {
+		LOG.info("go to settings");
 
 		gameFrame.setFramesPerSecond(MENU_FPS);
 
@@ -98,6 +109,7 @@ public class JappyBird {
 	}
 
 	public static void gotoHighscore() {
+		LOG.info("go to highscore");
 
 		gameFrame.setFramesPerSecond(MENU_FPS);
 

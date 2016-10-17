@@ -7,10 +7,15 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.EventListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.brunothg.game.engine.time.TimeUtils;
 import com.github.brunothg.game.engine.time.Timer;
 
 public class JappyBirdScene implements PausableScene {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(JappyBirdScene.class);
 
 	private static final Color COLOR_GRAS = new Color(0x00, 0x66, 0x00);
 	private static final Color COLOR_GRAS_BRIGHT = new Color(0x00, 0xAA, 0x00);
@@ -198,6 +203,8 @@ public class JappyBirdScene implements PausableScene {
 
 	@Override
 	public void pause() {
+		LOG.info("pause");
+
 		paused = true;
 		timer.reset();
 		movingScene.pause();
@@ -205,6 +212,8 @@ public class JappyBirdScene implements PausableScene {
 
 	@Override
 	public void stop() {
+		LOG.info("stop");
+
 		paused = true;
 		timer.reset();
 		movingScene.stop();
@@ -212,6 +221,8 @@ public class JappyBirdScene implements PausableScene {
 
 	@Override
 	public void start() {
+		LOG.info("start");
+
 		paused = false;
 		timer.reset();
 		movingScene.start();

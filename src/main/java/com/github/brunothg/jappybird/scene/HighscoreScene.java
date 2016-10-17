@@ -1,4 +1,4 @@
-package com.github.brunothg.jappybird;
+package com.github.brunothg.jappybird.scene;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.github.brunothg.game.engine.d2.scene.Scene;
 import com.github.brunothg.game.engine.image.InternalImage;
+import com.github.brunothg.jappybird.JappyBird;
 import com.github.brunothg.jappybird.dao.Score;
 
 public class HighscoreScene implements Scene, KeyListener {

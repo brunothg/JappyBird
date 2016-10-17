@@ -11,6 +11,10 @@ import com.github.brunothg.game.engine.d2.scene.FPSScene;
 import com.github.brunothg.game.engine.image.InternalImage;
 import com.github.brunothg.jappybird.dao.BestenlisteDAO;
 import com.github.brunothg.jappybird.dao.BestenlisteFileDAO;
+import com.github.brunothg.jappybird.scene.HighscoreScene;
+import com.github.brunothg.jappybird.scene.JappyBirdMenuScene;
+import com.github.brunothg.jappybird.scene.JappyBirdScene;
+import com.github.brunothg.jappybird.scene.SettingsScene;
 import com.github.brunothg.jappybird.settings.Settings;
 
 public class JappyBird {

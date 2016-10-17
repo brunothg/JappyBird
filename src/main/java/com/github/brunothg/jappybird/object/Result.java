@@ -1,4 +1,4 @@
-package com.github.brunothg.jappybird;
+package com.github.brunothg.jappybird.object;
 
 import static com.github.brunothg.jappybird.strings.Strings.*;
 
@@ -11,9 +11,10 @@ import java.awt.event.KeyListener;
 
 import com.github.brunothg.game.engine.d2.commons.Point;
 import com.github.brunothg.game.engine.d2.object.SceneObject;
-import com.github.brunothg.game.engine.d2.scene.Scene;
 import com.github.brunothg.game.engine.time.TimeUtils;
+import com.github.brunothg.jappybird.JappyBird;
 import com.github.brunothg.jappybird.dao.Score;
+import com.github.brunothg.jappybird.scene.PausableScene;
 import com.github.brunothg.jappybird.settings.Settings;
 
 public class Result extends SceneObject implements KeyListener {
@@ -30,9 +31,12 @@ public class Result extends SceneObject implements KeyListener {
 
 	private boolean neustart;
 
-	public Result(int punkte, Scene parent) {
+	private PausableScene parent;
+
+	public Result(int punkte, PausableScene parent) {
 
 		setInput("");
+		this.parent = parent;
 		this.stateOfBlink = 0;
 		this.setPunkte(punkte);
 		this.neustart = true;
@@ -136,7 +140,7 @@ public class Result extends SceneObject implements KeyListener {
 		}
 
 		if (isNeustart()) {
-			// XXX Scene - parent.start();
+			parent.start();
 		} else {
 			JappyBird.gotoMenu();
 		}

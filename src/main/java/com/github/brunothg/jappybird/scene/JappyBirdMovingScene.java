@@ -1,6 +1,7 @@
-package com.github.brunothg.jappybird;
+package com.github.brunothg.jappybird.scene;
 
-import static com.github.brunothg.jappybird.strings.Strings.*;
+import static com.github.brunothg.jappybird.strings.Strings.RESULT_DEFAULT_NAME;
+import static com.github.brunothg.jappybird.strings.Strings.START_STRING;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -20,11 +21,15 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import com.github.brunothg.game.engine.d2.commons.Point;
-import com.github.brunothg.game.engine.d2.scene.Scene;
 import com.github.brunothg.game.engine.time.TimeUtils;
+import com.github.brunothg.jappybird.JappyBird;
+import com.github.brunothg.jappybird.object.Heli;
+import com.github.brunothg.jappybird.object.Obstacle;
+import com.github.brunothg.jappybird.object.Result;
+import com.github.brunothg.jappybird.object.Wall;
 import com.github.brunothg.jappybird.settings.Settings;
 
-public class JappyBirdMovingScene implements Scene, KeyListener {
+public class JappyBirdMovingScene implements PausableScene, KeyListener {
 
 	private static final Color COLOR_START_STRING = Color.WHITE;
 
@@ -342,10 +347,12 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		heli.setSpeed(heli.getSpeed() - JUMP_SPEED);
 	}
 
+	@Override
 	public void pause() {
 		paused = true;
 	}
 
+	@Override
 	public void stop() {
 		paused = true;
 		stopped = true;
@@ -353,6 +360,7 @@ public class JappyBirdMovingScene implements Scene, KeyListener {
 		heli.setSpeed(0);
 	}
 
+	@Override
 	public void start() {
 		paused = false;
 

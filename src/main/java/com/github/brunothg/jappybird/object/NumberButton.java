@@ -1,4 +1,4 @@
-package com.github.brunothg.jappybird;
+package com.github.brunothg.jappybird.object;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,7 +9,7 @@ import java.awt.RenderingHints;
 import com.github.brunothg.game.engine.d2.commons.Point;
 import com.github.brunothg.game.engine.d2.object.SceneObject;
 
-public class SelectionButton extends SceneObject {
+public class NumberButton extends SceneObject {
 
 	private static final Color BG = new Color(0xd9, 0xd9, 0xd9);
 
@@ -18,9 +18,9 @@ public class SelectionButton extends SceneObject {
 	private String text;
 
 	private boolean isSeletcted;
-	private boolean isActive;
+	private int number;
 
-	public SelectionButton(String text) {
+	public NumberButton(String text) {
 
 		this.text = text;
 		this.setSeletcted(false);
@@ -64,21 +64,38 @@ public class SelectionButton extends SceneObject {
 						+ getHeight() * 0.5));
 
 		g.setColor(Color.BLACK);
-		g.fillOval(widtht, (int) (borderWidth + getWidth() * 0.01),
+		g.fillRect(widtht, (int) (borderWidth + getWidth() * 0.01),
 				(int) (getWidth() - widtht - arc),
 				(int) (getHeight() - 2 * (borderWidth + getWidth() * 0.01)));
 
-		if (isActive()) {
-			g.setColor(FG);
-		} else {
-			g.setColor(BG);
-		}
+		g.setColor(BG);
 
-		g.fillOval(widtht + borderWidth,
+		g.fillRect(widtht + borderWidth,
 				(int) (borderWidth + getWidth() * 0.01) + borderWidth,
 				(int) (getWidth() - widtht - arc) - borderWidth * 2,
 				(int) (getHeight() - 2 * (borderWidth + getWidth() * 0.01))
 						- borderWidth * 2);
+
+		g.setColor(FG);
+
+		int x, width, height;
+		x = widtht + borderWidth + borderWidth;
+		width = (int) (getWidth() - widtht - arc) - borderWidth * 2
+				- borderWidth * 2;
+		height = (int) (getHeight() - 2 * (borderWidth + getWidth() * 0.01))
+				- borderWidth * 2 - borderWidth * 2;
+
+		Font font = new Font(Font.SERIF, Font.BOLD, height);
+
+		while ((metrics = g.getFontMetrics(font))
+				.stringWidth(number + "") > width) {
+			font = new Font(Font.SERIF, Font.BOLD, font.getSize() - 1);
+		}
+
+		g.drawString(number + "", x
+				+ (int) (width * 0.5 - metrics.stringWidth("" + number) * 0.5),
+				(int) (height * 0.5 + metrics.getLeading()
+						+ metrics.getAscent() * 0.5));
 	}
 
 	@Override
@@ -95,12 +112,12 @@ public class SelectionButton extends SceneObject {
 		this.isSeletcted = isSeletcted;
 	}
 
-	public boolean isActive() {
-		return isActive;
+	public int getNumber() {
+		return number;
 	}
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 }

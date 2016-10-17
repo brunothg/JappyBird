@@ -1,4 +1,4 @@
-package com.github.brunothg.jappybird;
+package com.github.brunothg.jappybird.scene;
 
 import static com.github.brunothg.jappybird.strings.Strings.*;
 
@@ -12,6 +12,8 @@ import java.util.List;
 
 import com.github.brunothg.game.engine.d2.scene.Scene;
 import com.github.brunothg.game.engine.image.InternalImage;
+import com.github.brunothg.jappybird.JappyBird;
+import com.github.brunothg.jappybird.object.Button;
 
 public class JappyBirdMenuScene implements Scene, KeyListener {
 

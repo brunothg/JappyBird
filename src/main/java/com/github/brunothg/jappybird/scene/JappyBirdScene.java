@@ -1,4 +1,4 @@
-package com.github.brunothg.jappybird;
+package com.github.brunothg.jappybird.scene;
 
 import java.awt.Color;
 import java.awt.Graphics;

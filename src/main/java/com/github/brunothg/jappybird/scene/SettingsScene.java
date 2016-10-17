@@ -1,4 +1,4 @@
-package com.github.brunothg.jappybird;
+package com.github.brunothg.jappybird.scene;
 
 import static com.github.brunothg.jappybird.strings.Strings.*;
 
@@ -10,6 +10,9 @@ import java.util.EventListener;
 
 import com.github.brunothg.game.engine.d2.scene.Scene;
 import com.github.brunothg.game.engine.image.InternalImage;
+import com.github.brunothg.jappybird.JappyBird;
+import com.github.brunothg.jappybird.object.NumberButton;
+import com.github.brunothg.jappybird.object.SelectionButton;
 import com.github.brunothg.jappybird.settings.Settings;
 
 public class SettingsScene implements Scene, KeyListener {

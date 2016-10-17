@@ -7,10 +7,10 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.EventListener;
 
-import com.github.brunothg.game.engine.d2.scene.Scene;
 import com.github.brunothg.game.engine.time.TimeUtils;
+import com.github.brunothg.game.engine.time.Timer;
 
-public class JappyBirdScene implements Scene {
+public class JappyBirdScene implements PausableScene {
 
 	private static final Color COLOR_GRAS = new Color(0x00, 0x66, 0x00);
 	private static final Color COLOR_GRAS_BRIGHT = new Color(0x00, 0xAA, 0x00);
@@ -29,10 +29,15 @@ public class JappyBirdScene implements Scene {
 
 	private long sunTime;
 
+	private boolean paused;
+	private Timer timer;
+
 	private JappyBirdMovingScene movingScene;
 
 	public JappyBirdScene() {
 
+		this.paused = false;
+		timer = new Timer();
 		movingScene = new JappyBirdMovingScene();
 	}
 
@@ -47,7 +52,7 @@ public class JappyBirdScene implements Scene {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		sunTime += elapsed;
+		sunTime += timer.elapsedTime();
 		sunTime %= 24 * TimeUtils.NANOSECONDS_PER_SECOND;
 
 		long realTime = sunTime - 12 * TimeUtils.NANOSECONDS_PER_SECOND;
@@ -142,6 +147,10 @@ public class JappyBirdScene implements Scene {
 	@Override
 	public void paintScene(Graphics2D g, int width, int height, long elapsed) {
 
+		if (!paused) {
+			timer.update();
+		}
+
 		Graphics2D gr = getGraphics(width, height);
 		paintNonStatic(gr, width, height, elapsed);
 
@@ -187,15 +196,24 @@ public class JappyBirdScene implements Scene {
 		return null;
 	}
 
+	@Override
 	public void pause() {
+		paused = true;
+		timer.reset();
 		movingScene.pause();
 	}
 
+	@Override
 	public void stop() {
+		paused = true;
+		timer.reset();
 		movingScene.stop();
 	}
 
+	@Override
 	public void start() {
+		paused = false;
+		timer.reset();
 		movingScene.start();
 	}
 

@@ -193,7 +193,7 @@ public class JappyBirdScene implements PausableScene {
 
 	@Override
 	public EventListener[] getEventListeners() {
-		return null;
+		return new EventListener[] { movingScene };
 	}
 
 	@Override

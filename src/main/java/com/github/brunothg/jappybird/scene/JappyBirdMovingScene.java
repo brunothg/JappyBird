@@ -20,6 +20,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.brunothg.game.engine.d2.commons.Point;
 import com.github.brunothg.game.engine.time.TimeUtils;
 import com.github.brunothg.game.engine.time.Timer;
@@ -31,6 +34,8 @@ import com.github.brunothg.jappybird.object.Wall;
 import com.github.brunothg.jappybird.settings.Settings;
 
 public class JappyBirdMovingScene implements PausableScene, KeyListener {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(JappyBirdMovingScene.class);
 
 	private static final Color COLOR_START_STRING = Color.WHITE;
 
@@ -86,7 +91,6 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 
 	@Override
 	public void paintScene(Graphics2D g, int width, int height, long elapsed) {
-
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -354,12 +358,16 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 
 	@Override
 	public void pause() {
+		LOG.info("Pause");
+
 		paused = true;
 		timer.reset();
 	}
 
 	@Override
 	public void stop() {
+		LOG.info("Stop");
+
 		paused = true;
 		stopped = true;
 
@@ -369,6 +377,8 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 
 	@Override
 	public void start() {
+		LOG.info("Start");
+
 		paused = false;
 
 		if (stopped) {

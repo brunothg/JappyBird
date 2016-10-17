@@ -34,6 +34,7 @@ public class JappyBird {
 		InternalImage.setRootFolder("/com/github/brunothg/jappybird/media/");
 
 		gameFrame.setSize(800, 600);
+		gameFrame.setLocationRelativeTo(null);
 		gameFrame.setMinimumSize(gameFrame.getSize());
 		gameFrame.setIconImage(InternalImage.load("logo.png"));
 

@@ -100,7 +100,7 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 		}
 
 		updateObstacles(width, height);
-		paintHeli(g, width, height, elapsed);
+		paintHeli(g, width, height);
 		paintObstacles(g, width, height, elapsed);
 		paintWall(g, width, height, elapsed);
 		paintPoints(g, width, height);
@@ -275,10 +275,10 @@ public class JappyBirdMovingScene implements PausableScene, KeyListener {
 				255 - c.getBlue());
 	}
 
-	private void paintHeli(Graphics2D g, int width, int height, long elapsed) {
+	private void paintHeli(Graphics2D g, int width, int height) {
 		setHeliPosition(width, height);
 		heli.setSize((int) (width * 0.08), (int) (height * 0.08));
-		heli.paintOnScene(g, elapsed);
+		heli.paintOnScene(g, timer.elapsedTime());
 	}
 
 	private void setHeliPosition(int width, int height) {
